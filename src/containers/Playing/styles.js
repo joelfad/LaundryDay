@@ -37,7 +37,9 @@ const styles = theme => ({
     },
     question: {
         fontFamily: theme.fonts.simple,
-        paddingRight: "10px"
+        paddingLeft: "10px",
+        paddingRight: "10px",
+        textAlign: "center"
     },
     select: {
         display: "flex",

@@ -1,8 +1,10 @@
 const styles = theme => ({
     card: {
         marginTop: "10px",
-        width: "80px",
-        height: "100px",
+        width: "10vh",
+        maxWidth: "90px",
+        height: "12vh",
+        maxHeight: "108px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

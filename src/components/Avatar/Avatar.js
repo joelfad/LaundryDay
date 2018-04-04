@@ -19,7 +19,7 @@ const avatar = props => {
         name = classes.icon;
     }
     if (props.large) {
-        style = {height:"25vw", width:"25vw"};
+        style = {height:"10vh", width:"10vh"};
     }
     switch (props.id) {
         case '1':
