@@ -31,7 +31,7 @@ class GameLobby extends Component {
         } else {
             buttons = (
                 <div className={classes.buttons}>
-                    <Button className={classes.button} variant="raised">Exit Lobby</Button>;
+                    <Button className={classes.button} variant="raised">Exit Lobby</Button>
                 </div>
             );
         }
