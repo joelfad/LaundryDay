@@ -1,33 +1,37 @@
 import React, { Component } from 'react';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import './App.css';
+import theme from "./components/material-ui/theme";
+
 import Login from "./containers/Login/Login";
-import Login2 from "./containers/Login/Login/Login";
-import NewUser from "./containers/Login/NewUser/NewUser";
 import Home from "./components/Home/Home";
 import Lobby from "./containers/Lobby/Lobby";
 import GameLobby from "./containers/GameLobby/GameLobby";
 import EndPage from "./components/EndPage/EndPage";
 import AvatarSelection from "./containers/AvatarSelection/AvatarSelection";
 import Playing from "./containers/Playing/Playing";
-import theme from "./components/material-ui/theme";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 class App extends Component {
-  render() {
-    return (
-      <MuiThemeProvider theme={theme}>
-      {/* <NewUser/> */}
-      {/* <Login/> */}
-      {/* <Home/> */}
-      {/* <Login2/>} */}
-      {/* <Lobby/> */}
-      {/* <GameLobby creator={false} name="Game 1"/> */}      
-      {/* <EndPage win={true}/> */}
-      {/* <AvatarSelection/> */}
-      <Playing/>
-      </MuiThemeProvider>
-    );
-  }
+    render() {
+        return (
+            <MuiThemeProvider theme={theme}>
+                <BrowserRouter>
+                    <Switch>
+                        <Route path="/" component={Login}/>
+                        <Route path="/avatar" component={AvatarSelection}/>
+                        <Route path="/home" component={Home}/>
+                        <Route path="/lobby" component={Lobby}/>
+                        <Route path="/game/:id" component={GameLobby}/>
+                        {/* <Route path="/" component={EndPage}/> This Page might be integrated into /game/:id */}
+                        {/* <Route path="/" component={Playing}/> This Page might be integrated into /game/:id */}
+                    </Switch>
+                </BrowserRouter>
+            </MuiThemeProvider>
+        );
+    }
 }
 
 export default App;
