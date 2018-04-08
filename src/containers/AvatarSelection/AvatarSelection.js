@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { withStyles } from "material-ui/styles";
-import avatarSelectionStyles from "./styles";
 import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
+
 import Avatar from "../../components/Avatar/Avatar";
+
+import avatarSelectionStyles from "./styles";
 
 class AvatarSelection extends Component {
     state = {

@@ -1,3 +1,4 @@
+/* global gapi */
 import React, { Component } from "react";
 import { withStyles } from "material-ui/styles";
 import loginStyles from "./styles";
@@ -5,12 +6,7 @@ import Typography from "material-ui/Typography";
 
 class Login extends Component {
 
-    /* eslint-disable no-undef */
     componentDidMount = () => {
-        let auth;
-        gapi.load("auth2", () => {
-            auth = gapi.auth2.init();
-        });
         gapi.signin2.render("google-signin-button", {
             scope: "profile email",
             longtitle: true,
@@ -21,9 +17,7 @@ class Login extends Component {
             },
             onfailure: () => { console.log("FAIL") }
         });
-        this.setState({auth});
     }
-    /* eslint-enable no-undef */
 
     render() {
         const { classes } = this.props;
