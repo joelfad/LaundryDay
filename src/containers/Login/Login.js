@@ -8,7 +8,7 @@ class Login extends Component {
 
     componentDidMount = () => {
         gapi.signin2.render("google-signin-button", {
-            scope: "profile email",
+            scope: "profile",
             longtitle: true,
             height: 50,
             width: 250,
