@@ -5,6 +5,8 @@ import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 import Game from "../../components/Game/Game";
 
+import { withAuth } from "../../context/AuthContext/AuthContext";
+
 class Lobby extends Component {
     state = {
     }
@@ -44,4 +46,4 @@ class Lobby extends Component {
 }
 
 
-export default withStyles(lobbyStyles, { withTheme: true })(Lobby);
+export default withAuth()(withStyles(lobbyStyles, { withTheme: true })(Lobby));

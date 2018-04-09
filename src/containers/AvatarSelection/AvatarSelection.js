@@ -5,6 +5,7 @@ import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
 
 import Avatar from "../../components/Avatar/Avatar";
+import { withAuth } from "../../context/AuthContext/AuthContext";
 
 import avatarSelectionStyles from "./styles";
 
@@ -48,4 +49,4 @@ class AvatarSelection extends Component {
 }
 
 
-export default withStyles(avatarSelectionStyles, { withTheme: true })(AvatarSelection);
+export default withAuth()(withStyles(avatarSelectionStyles, { withTheme: true })(AvatarSelection));
