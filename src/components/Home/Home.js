@@ -4,17 +4,19 @@ import homeStyles from "./styles";
 import Button from "material-ui/Button";
 import Typography from "material-ui/Typography";
 
+import { withAuth } from "../../context/AuthContext/AuthContext";
+
 class Home extends Component {
     render() {
         const { classes } = this.props;
         return (
             <div className={classes.login}>
                 <div>
-                <Typography className={classes.title} variant="title">Laundry Day</Typography>
-                <div className={classes.buttons}>
-                    <Button className={classes.button} variant="raised">Join a Game</Button>
-                    <Button className={classes.button} variant="raised">Start a New Game</Button>
-                </div>
+                    <Typography className={classes.title} variant="title">Laundry Day</Typography>
+                    <div className={classes.buttons}>
+                        <Button className={classes.button} variant="raised">Join a Game</Button>
+                        <Button className={classes.button} variant="raised">Start a New Game</Button>
+                    </div>
                 </div>
             </div>
         );
@@ -22,4 +24,4 @@ class Home extends Component {
 }
 
 
-export default withStyles(homeStyles, { withTheme: true })(Home);
+export default withAuth()(withStyles(homeStyles, { withTheme: true })(Home));

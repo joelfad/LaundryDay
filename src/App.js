@@ -1,4 +1,3 @@
-/* global gapi */
 import React, { Component } from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -14,30 +13,27 @@ import GameLobby from "./containers/GameLobby/GameLobby";
 import AvatarSelection from "./containers/AvatarSelection/AvatarSelection";
 // import Playing from "./containers/Playing/Playing";
 import { SocketProvider } from "./context/SocketContext/SocketContext";
+import { AuthProvider } from "./context/AuthContext/AuthContext";
 
 
 class App extends Component {
-    componentDidMount= () => {
-        gapi.load("auth2", () => {
-            gapi.auth2.init();
-        });
-    }
-
     render() {
         return (
             <MuiThemeProvider theme={theme}>
                 <SocketProvider>
-                    <BrowserRouter>
-                        <Switch>
-                            <Route path="/avatar" component={AvatarSelection}/>
-                            <Route path="/home" component={Home}/>
-                            <Route path="/lobby" component={Lobby}/>
-                            <Route path="/game/:id" component={GameLobby}/>
-                            {/* <Route path="/" component={EndPage}/> This Page might be integrated into /game/:id */}
-                            {/* <Route path="/" component={Playing}/> This Page might be integrated into /game/:id */}
-                            <Route path="/" component={Login}/>
-                        </Switch>
-                    </BrowserRouter>
+                    <AuthProvider>
+                        <BrowserRouter>
+                            <Switch>
+                                <Route path="/avatar" component={AvatarSelection}/>
+                                <Route path="/home" component={Home}/>
+                                <Route path="/lobby" component={Lobby}/>
+                                <Route path="/game/:id" component={GameLobby}/>
+                                {/* <Route path="/" component={EndPage}/> This Page might be integrated into /game/:id */}
+                                {/* <Route path="/" component={Playing}/> This Page might be integrated into /game/:id */}
+                                <Route path="/" component={Login}/>
+                            </Switch>
+                        </BrowserRouter>
+                    </AuthProvider>
                 </SocketProvider>
             </MuiThemeProvider>
         );

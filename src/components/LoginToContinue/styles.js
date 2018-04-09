@@ -7,7 +7,16 @@ const styles = theme => ({
         margin: "auto",
     },
     button: {
-        margin: "10px"
+        width: "250px",
+        margin: "10px",
+        fontSize: "1.3em",
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.contrastText,
+        textTransform: "capitalize",
+        fontFamily: theme.fonts.simple,
+        "&:hover": {
+            backgroundColor: theme.palette.primary.contrastText
+        }
     },
     title: {
         textAlign: "center",
@@ -23,6 +32,9 @@ const styles = theme => ({
         justifyContent: "flex-start",
         height: "100vh",
         backgroundColor: theme.palette.primary.main
+    },
+    spinner: {
+        color: "#FFFFFF"
     }
 });
 

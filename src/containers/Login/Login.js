@@ -10,7 +10,7 @@ class Login extends Component {
         gapi.signin2.render("google-signin-button", {
             scope: "profile",
             longtitle: true,
-            height: 50,
+            height: 45,
             width: 250,
             onsuccess: (googleUser) => {
                 console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
@@ -24,10 +24,10 @@ class Login extends Component {
         return (
             <div className={classes.login}>
                 <div>
-                <Typography className={classes.title} variant="title">Laundry Day</Typography>
-                <div className={classes.buttons}>
-                    <div id="google-signin-button"></div>
-                </div>
+                    <Typography className={classes.title} variant="title">Laundry Day</Typography>
+                    <div className={classes.buttons}>
+                        <div className={classes.button} id="google-signin-button"></div>
+                    </div>
                 </div>
             </div>
         );
