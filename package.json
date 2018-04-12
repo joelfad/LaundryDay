@@ -10,13 +10,15 @@
     "material-ui": "^1.0.0-beta.38",
     "material-ui-icons": "^1.0.0-beta.36",
     "socket.io": "^2.1.0",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "google-auth-library": "^1.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "node server/index.js"
   },
   "devDependencies": {
     "eslint-config-google": "^0.9.1",

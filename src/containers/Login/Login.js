@@ -4,6 +4,8 @@ import { withStyles } from "material-ui/styles";
 import loginStyles from "./styles";
 import Typography from "material-ui/Typography";
 
+import { withSocket } from "../../context/SocketContext/SocketContext";
+
 class Login extends Component {
 
     componentDidMount = () => {
@@ -14,6 +16,9 @@ class Login extends Component {
             width: 250,
             onsuccess: (googleUser) => {
                 console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+                this.props.socket.emit("authenticate", googleUser.getAuthResponse().id_token, (response) => {
+                    console.log(response);
+                });
             },
             onfailure: () => { console.log("FAIL") }
         });
@@ -35,4 +40,4 @@ class Login extends Component {
 }
 
 
-export default withStyles(loginStyles, { withTheme: true })(Login);
+export default withSocket()(withStyles(loginStyles, { withTheme: true })(Login));
