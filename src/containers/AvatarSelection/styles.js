@@ -34,7 +34,7 @@ const styles = theme => ({
         margin: "auto",
     },
     button: {
-        width: "100px",
+        width: "150px",
         margin:"10px",
         fontSize: "1.5em",
         color: theme.palette.primary.main,

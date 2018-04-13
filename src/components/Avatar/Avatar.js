@@ -8,9 +8,10 @@ import avatar4 from './icons/4.svg';
 import avatar5 from './icons/5.svg';
 import avatar6 from './icons/6.svg';
 
+const avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6];
+
 const avatar = props => {
     let { classes } = props;
-    let avatar = null;
     let name = null;
     let style = null;
     if (props.selected) {
@@ -21,33 +22,9 @@ const avatar = props => {
     if (props.large) {
         style = {height:"10vh", width:"10vh"};
     }
-    switch (props.id) {
-        case '1':
-            avatar = <img className={name} style={style} src={avatar1} alt="" onClick={props.clicked}/>;
-        break;
-        case '2':
-            avatar = <img className={name} style={style} src={avatar2} alt="" onClick={props.clicked}/>;
-        break;
-        case '3':
-            avatar = <img className={name} style={style} src={avatar3} alt="" onClick={props.clicked}/>;
-        break;
-        case '4':
-            avatar = <img className={name} style={style} src={avatar4} alt="" onClick={props.clicked}/>;
-        break;
-        case '5':
-            avatar = <img className={name} style={style} src={avatar5} alt="" onClick={props.clicked}/>;
-        break;
-        case '6':
-            avatar = <img className={name} style={style} src={avatar6} alt="" onClick={props.clicked}/>;
-        break;
-        default:
-            avatar = <img className={name} style={style} src={avatar1} alt="" onClick={props.clicked}/>;
-        break;
-        
-    }
     return (
         <div className={classes.avatar}>
-            {avatar}
+            <img className={name} style={style} src={avatars[props.index]} alt="" onClick={props.clicked}/>
         </div>
     );
 };

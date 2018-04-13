@@ -54,6 +54,11 @@ socketServer.on("connection", socket => {
         });
     });
 
+    socket.on("setAvatar", (avatarIndex, sendResponse) => {
+        state.users[userID].avatar = avatarIndex;
+        sendResponse();
+    });
+
     socket.on("disconnect", () => {
         if (userID) {
             state.users[userID].socket = null;

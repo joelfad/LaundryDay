@@ -6,42 +6,39 @@ import Button from "material-ui/Button";
 
 import Avatar from "../../components/Avatar/Avatar";
 import { withAuth } from "../../context/AuthContext/AuthContext";
+import { withSocket } from "../../context/SocketContext/SocketContext";
 
 import avatarSelectionStyles from "./styles";
 
 class AvatarSelection extends Component {
     state = {
-        1: {selected: false},
-        2: {selected: false},
-        3: {selected: false},
-        4: {selected: false},
-        5: {selected: false},
-        6: {selected: false}
+        selected: -1
     }
 
-    selectedHandler = (prop) => {
-        Object.keys(this.state).forEach((key) => {
-            this.setState({[key]: {selected: false}});
-        })
-        this.setState({[prop]: {selected: true}});
+    selectedHandler = (index) => () => {
+        this.setState({selected: index});
+    }
+
+    setAvatarHandler = () => {
+        this.props.socket.emit("setAvatar", this.state.selected, () => {
+            this.props.history.push("/home");
+        });
     }
 
     render() {
         const { classes } = this.props;
+        const avatarList = [];
+        for (let i = 0; i < 6; i++) {
+            avatarList.push(<Avatar key={i} index={i} large selected={this.state.selected === i} clicked={this.selectedHandler(i)}/>);
+        }
         return (
             <div className={classes.avatarSelection}>
                 <Typography className={classes.title} variant="title">Select an Avatar</Typography>
                 <Paper className={classes.paper}>
-                    <Avatar id="1" large selected={this.state["1"].selected} clicked={() => this.selectedHandler("1")}/>
-                    <Avatar id="2" large selected={this.state["2"].selected} clicked={() => this.selectedHandler("2")}/>
-                    <Avatar id="3" large selected={this.state["3"].selected} clicked={() => this.selectedHandler("3")}/>
-                    <Avatar id="4" large selected={this.state["4"].selected} clicked={() => this.selectedHandler("4")}/>
-                    <Avatar id="5" large selected={this.state["5"].selected} clicked={() => this.selectedHandler("5")}/>
-                    <Avatar id="6" large selected={this.state["6"].selected} clicked={() => this.selectedHandler("6")}/>
+                    {avatarList}
                 </Paper>
                 <div className={classes.buttons}>
-                    <Button className={classes.button}>Back</Button>
-                    <Button className={classes.button}>Next</Button>
+                    <Button className={classes.button} onClick={this.setAvatarHandler}>Set Avatar</Button>
                 </div>
             </div>
         );
@@ -49,4 +46,4 @@ class AvatarSelection extends Component {
 }
 
 
-export default withAuth()(withStyles(avatarSelectionStyles, { withTheme: true })(AvatarSelection));
+export default withSocket()(withAuth()(withStyles(avatarSelectionStyles, { withTheme: true })(AvatarSelection)));
