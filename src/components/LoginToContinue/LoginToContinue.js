@@ -15,7 +15,7 @@ const loginToContinue = props => {
         display = <Button variant="raised" className={props.classes.button} onClick={() => props.history.push("/")}>Please login to continue</Button>;
     }
     return (
-        <div className={props.classes.login}>
+        <div className={props.classes.background}>
             <div>
                 <Typography className={props.classes.title} variant="title">Laundry Day</Typography>
                 <div className={props.classes.buttons}>

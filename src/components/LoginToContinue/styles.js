@@ -26,7 +26,7 @@ const styles = theme => ({
         color: theme.palette.primary.contrastText,
         fontFamily: theme.fonts.fancy
     },
-    login: {
+    background: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",

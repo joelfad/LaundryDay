@@ -10,7 +10,7 @@ class Home extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.login}>
+            <div className={classes.background}>
                 <div>
                     <Typography className={classes.title} variant="title">Laundry Day</Typography>
                     <div className={classes.buttons}>
