@@ -2,6 +2,8 @@
 import React, { Component } from "react";
 
 import LoginToContinue from "../../components/LoginToContinue/LoginToContinue";
+
+import AuthHandler from "./AuthHandler/AuthHandler";
 /* 
 * The purpose of these components is not to provide access to the google auth object, as that can be accessed via the global 'gapi.auth2'
 * The the google auth object must be initialized before use.
@@ -12,8 +14,7 @@ const AuthContext = React.createContext();
 
 class AuthProvider extends Component {
     state = {
-        gAuth: null,
-
+        gAuth: null
     }
 
     componentDidMount = () => {
@@ -37,7 +38,7 @@ class AuthProvider extends Component {
     }
 }
 
-const withAuth = () => Component => {
+const withAuth = () => ChildComponent => {
     const WithAuth = (props) => {
         return (
             <AuthContext.Consumer>
@@ -46,7 +47,11 @@ const withAuth = () => Component => {
                         if (!gAuth.isSignedIn.get()) {
                             return <LoginToContinue/>;
                         }
-                        return <Component gAuth={gAuth} {...props}/>;
+                        return (
+                            <AuthHandler gAuth={gAuth} {...props}>
+                                <ChildComponent gAuth={gAuth} {...props}/>
+                            </AuthHandler>
+                        );
                     }
                     else {
                         return <LoginToContinue loading/>

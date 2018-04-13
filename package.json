@@ -19,7 +19,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "node server/index.js"
+    "server": "node server/index.js",
+    "r_server": "node server/r_index.js"
   },
   "devDependencies": {
     "eslint-config-google": "^0.9.1",

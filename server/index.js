@@ -9,10 +9,10 @@ const findIndex = require('lodash/findIndex');
 let app = require('express')();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 3001;
 
-app.get('/', function (req, res) { res.sendFile(__dirname + '/index.html'); });
-http.listen(port, function () { console.log('listening on *:' + port); });
+app.get('/', function (req, res) { res.sendFile(__dirname + '../build/index.html'); });
+http.listen(port, function () { console.log('listening on localhost:' + port); });
 
 let game_index = 2;
 let lobby = 'lobby';
@@ -80,8 +80,6 @@ let games = [
 
 io.sockets.on('connection', function (socket) {
 
-    //
-
     socket.on('room', function (room) {
         socket.join(room);
         console.log('user joined room : ' + room);
@@ -116,6 +114,7 @@ io.sockets.on('connection', function (socket) {
         setAvatar(name, avatar_id);
         io.emit('update', users);
     });
+    
     socket.on('leave', function (nickname) {
         console.log(nickname + ' leaving game');
         let room = find(users, { name: nickname }).game;
@@ -125,23 +124,27 @@ io.sockets.on('connection', function (socket) {
         io.emit('deleteRoom', room);
         socket.leave();
     });
+    
     socket.on('join', function (nickname, room) {
         console.log(nickname + ' joined room ' + room);
         io.sockets.in(room).emit('newPlayer', nickname);
         joinRoom(nickname, room);
         socket.join(room);
     });
+    
     socket.on('create', function (nickname) {
         let newRoom = createGame(nickname);
         io.emit('newRoom', newRoom.game_id);
         socket.join(newRoom);
     });
+    
     socket.on('start', function (room) {
         let gameRoom = find(games, { game_id: room });
         initiateGame(room);
         io.sockets.in(room).emit('start', room);
         io.broadcast('start', room);
     });
+    
     socket.on('pause', function (room) {
         let gameRoom = find(games, { game_id: room });
         pauseGame(room);
@@ -149,6 +152,7 @@ io.sockets.on('connection', function (socket) {
         io.broadcast('pause', room);
         console.log('Pausing game ' +room);
     });
+    
     socket.on('askforLaundry', function (askingPlayerID, requestedCard, requestedPlayerID) {
         console.log(askingPlayerID + ' asking for ' + requestedCard + ' to ' + requestedPlayerID);
         let room = roomCheck(askingPlayerID, requestedPlayerID);
@@ -161,6 +165,7 @@ io.sockets.on('connection', function (socket) {
     });
 
 });
+
 function pauseGame(game) {
     let gameRoom = find(games, { game_id: room });
     if (!gameRoom) {
@@ -217,6 +222,7 @@ function createGame(nickname) {
     games.push(g);
     return g;
 };
+
 function joinRoom(nickname, room) {
     let gameRoom = find(games, { game_id: room });
     if (!gameRoom) {
@@ -245,6 +251,7 @@ function joinRoom(nickname, room) {
     }
     return;
 };
+
 function checkActive(player, room){
     if(player.active){
         io.sockets.in(room).emit('turn', player.name);  
@@ -252,6 +259,7 @@ function checkActive(player, room){
     else 
     pauseGame(room);
 }
+
 function playerRotation(g) {
     let players = g.players;
     let i = 0;
@@ -266,6 +274,7 @@ function playerRotation(g) {
           io.sockets.in(g).emit('turn', value.name);
       });*/
 };
+
 function roomCheck(nickname1, nickname2) {
     let room1 = find(users, { name: nickname1 }).game;
     let room2 = find(users, { name: nickname2 }).game;
@@ -286,6 +295,7 @@ function hasItem(nickname, item) {
     });
     return false;
 };
+
 function createHand(nickname) {
     let playerHand = new hand(nickname);
     return playerHand;

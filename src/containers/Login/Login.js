@@ -18,6 +18,19 @@ class Login extends Component {
                 console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
                 this.props.socket.emit("authenticate", googleUser.getAuthResponse().id_token, (response) => {
                     console.log(response);
+                    console.log(this.props.socket);
+                    switch (response.goTo) {
+                    case "avatar":
+                        this.props.history.push("/avatar");
+                        break;
+                    case "game":
+                        this.props.history.push("/game/" + response.id);
+                        break;
+                    case "home":
+                    default:
+                        this.props.history.push("/home");
+                        break;
+                    }
                 });
             },
             onfailure: () => { console.log("FAIL") }
