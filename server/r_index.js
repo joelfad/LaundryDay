@@ -27,11 +27,11 @@ const state = {
 };
 
 socketServer.on("connection", socket => {
-    console.log("Socket Connected!");
+    console.log("Anonymous Socket Connected!");
     let userID; // This is the userToken for the user related to THIS socket
 
     socket.on("authenticate", (userToken, sendResponse) => {
-        console.log("got authenticate event")
+        console.log("Got authenticate event")
         verifyToken(userToken).then(userData => {
             userID = userData.userid;
             if (state.users[userID]) {
@@ -57,6 +57,16 @@ socketServer.on("connection", socket => {
     socket.on("setAvatar", (avatarIndex, sendResponse) => {
         state.users[userID].avatar = avatarIndex;
         sendResponse();
+    });
+
+    socket.on("anonymize", (sendResponse) => {
+        if (userID) {
+            state.users[userID].socket = null;
+            userID = 0;
+            sendResponse();
+            console.log("Socket Anonymized");
+        }
+        
     });
 
     socket.on("disconnect", () => {

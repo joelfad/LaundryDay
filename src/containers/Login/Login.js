@@ -15,10 +15,13 @@ class Login extends Component {
             height: 45,
             width: 250,
             onsuccess: (googleUser) => {
-                console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+                // console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
                 this.props.socket.emit("authenticate", googleUser.getAuthResponse().id_token, (response) => {
-                    console.log(response);
-                    console.log(this.props.socket);
+                    // console.log(response);
+                    // console.log(this.props.socket);
+
+                    this.props.socketAuth.updateAuthStatus(true);
+
                     switch (response.goTo) {
                     case "avatar":
                         this.props.history.push("/avatar");

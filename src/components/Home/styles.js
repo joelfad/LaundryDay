@@ -32,6 +32,21 @@ const styles = theme => ({
         justifyContent: "flex-start",
         height: "100vh",
         backgroundColor: theme.palette.primary.main
+    },
+    logout: {
+        position: "absolute",
+        right: "0",
+        top: "0",
+        width: "100px",
+        margin: "10px",
+        fontSize: "1.3em",
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.contrastText,
+        textTransform: "capitalize",
+        fontFamily: theme.fonts.simple,
+        "&:hover": {
+            backgroundColor: theme.palette.primary.contrastText
+        }
     }
 });
 

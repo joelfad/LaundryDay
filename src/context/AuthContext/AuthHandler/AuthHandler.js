@@ -6,10 +6,10 @@ class AuthHandler extends Component {
     componentDidMount() {
         if (!this.props.socketAuth.isAuthenticated) {
             let googleUser = this.props.gAuth.currentUser.get();
-            console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+            // console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
             this.props.socket.emit("authenticate", googleUser.getAuthResponse().id_token, (response) => {
-                console.log(response);
-                console.log(this.props.socket);
+                // console.log(response);
+                // console.log(this.props.socket);
 
                 this.props.socketAuth.updateAuthStatus(true);
                 
