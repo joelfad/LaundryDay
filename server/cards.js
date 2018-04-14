@@ -14,8 +14,8 @@ const OrderedDeck = [
     {name: 'dress', id: 12}, {name: 'dress', id: 12}, {name: 'dress', id: 12}, {name: 'dress', id: 12}
 ];
 
-exports.newDeck = () => {
-    let newDeck = Array.of(...OrderedDeck);
+module.exports = () => {
+    let newDeck = OrderedDeck.map(card => ({...card})); // This creates a deep copy of the above deck
     shuffleDeck(newDeck);
     return newDeck;
 };

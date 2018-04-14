@@ -17,6 +17,16 @@ class Home extends Component {
         });
     }
 
+    joinGameHandler = () => {
+        this.props.history.push("/lobby")
+    }
+
+    newGameHandler = () => {
+        this.props.socket.emit("createGame", gameID => {
+            this.props.history.push("/game/" + gameID);
+        });
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -26,8 +36,8 @@ class Home extends Component {
                     <div>
                         <Typography className={classes.title} variant="title">Laundry Day</Typography>
                         <div className={classes.buttons}>
-                            <Button className={classes.button} variant="raised">Join a Game</Button>
-                            <Button className={classes.button} variant="raised">Start a New Game</Button>
+                            <Button className={classes.button} variant="raised" onClick={this.joinGameHandler}>Join a Game</Button>
+                            <Button className={classes.button} variant="raised" onClick={this.newGameHandler}>Start a New Game</Button>
                         </div>
                     </div>
                 </div>

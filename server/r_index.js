@@ -5,8 +5,7 @@ const http = require("http");
 const socketio = require("socket.io");
 const { OAuth2Client } = require("google-auth-library");
 
-const { user } = require("./classes");
-const cards = require("./cards");
+const { User, Game } = require("./classes");
 
 const G_CLIENT_ID = "406419867255-aiscktvrh9qgf35pi1602b5pmt15040g.apps.googleusercontent.com";
 const port = 3001;
@@ -24,29 +23,33 @@ expressApp.use(express.static(path.join(__dirname, "../build")));
 
 const state = {
     users: {},
-    games: []
+    games: {},
+    nextGameID: 0
 };
 
 socketServer.on("connection", socket => {
     console.log("Anonymous Socket Connected!");
-    let userID; // This is the userToken for the user related to THIS socket
+    let userID = 0; // This is the userToken for the user related to THIS socket
 
     socket.on("authenticate", (userToken, sendResponse) => {
         console.log("Got authenticate event")
         verifyToken(userToken).then(userData => {
             userID = userData.userid;
             if (state.users[userID]) {
+                let user = state.users[userID];
                 console.log("User was here before");
-                state.users[userID].socket = socket;
-                if (state.users[userID].avatar === -1) {
+                user.socket = socket;
+                if (user.avatar === -1) {
                     sendResponse({goTo: "avatar"});
-                } // else if (user is in game) goTo game, id x
+                } else if (user.inGame !== -1) {
+                    sendResponse({goTo: "game", id: user.inGame});
+                }
                 else {
                     sendResponse({goTo: "home"});
                 }
             } else {
                 console.log("User was not here before, make new 'account'");
-                state.users[userID] = new user(userID, userData.name);
+                state.users[userID] = new User(userID, userData.name);
                 sendResponse({goTo: "avatar"});
             }
             console.log("Got user:", userData);
@@ -56,8 +59,47 @@ socketServer.on("connection", socket => {
     });
 
     socket.on("setAvatar", (avatarIndex, sendResponse) => {
-        state.users[userID].avatar = avatarIndex;
-        sendResponse();
+        if (userID) {
+            state.users[userID].avatar = avatarIndex;
+            sendResponse();
+        }
+    });
+
+    socket.on("createGame", sendResponse => {
+        if (userID) {
+            let gameID = state.nextGameID++;
+            state.games[gameID] = new Game(gameID, userID);
+            state.users[userID].inGame = gameID;
+            sendResponse(gameID);
+            lobbyUpdate();
+        }
+    });
+
+    socket.on("joinLobby", () => {
+        if (userID) {
+            socket.join("lobby");
+            lobbyUpdate();
+        }
+    });
+
+    socket.on("leaveLobby", () => {
+        if (userID) {
+            socket.leave("lobby");
+        }
+    });
+
+    socket.on("joinGame", (gameID, sendResponse) => {
+        if (userID) {
+            // do stuff
+            lobbyUpdate();
+        }
+    });
+
+    socket.on("leaveGame", (gameID, sendResponse) => {
+        if (userID) {
+            // do stuff
+            lobbyUpdate();
+        }
     });
 
     socket.on("anonymize", (sendResponse) => {
@@ -87,4 +129,16 @@ async function verifyToken(idToken) {
     const name = payload['given_name'];
 
     return {userid, name};
-  }
+}
+
+  function lobbyUpdate() {
+      let payload = [];
+    for (let key in state.games) {
+        let game = state.games[key];
+        let numPlayers = Object.keys(game.players).length
+        if (numPlayers < 4 && !game.started) {
+            payload.push({id: key, name: "Game " + key, numPlayers});
+        }
+    }
+    socketServer.to("lobby").emit("lobbyUpdate", payload);
+}
