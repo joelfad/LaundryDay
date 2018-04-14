@@ -28,7 +28,7 @@ class AvatarSelection extends Component {
     render() {
         const { classes } = this.props;
         const avatarList = [];
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 50; i++) {
             avatarList.push(<Avatar key={i} index={i} large selected={this.state.selected === i} clicked={this.selectedHandler(i)}/>);
         }
         return (
