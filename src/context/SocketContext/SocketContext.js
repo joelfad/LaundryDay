@@ -5,7 +5,7 @@ const SocketContext = React.createContext();
 
 class SocketProvider extends Component {
     state = {
-        socket: io("localhost:3001"),
+        socket: io(window.location.hostname + ":3001"),
         authenticated: false
     }
 
