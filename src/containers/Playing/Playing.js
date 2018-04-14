@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "material-ui/styles";
 import playingStyles from "./styles";
 import Me from "../../components/Me/Me";
+import MyPoints from "../../components/MyPoints/MyPoints";
 import Opponent from "../../components/Opponent/Opponent";
 import MyCard from "../../components/MyCard/MyCard";
 import Paper from "material-ui/Paper";
@@ -16,12 +17,19 @@ class Playing extends Component {
     state = {
         card: "null",
         open: false,
-        me: {name: "Marissa", avatar: "3"},
+        me: {
+            name: "Marissa",
+            avatar: "3",
+            cards: [
+                {id: 2, name: "sock"},
+                {id: 1, name: "mitten"},
+                {id: 0, name: "shoe"}
+            ],
+            points: 12},
         opponentIds: [1,2,3],
         1: {name: "Bob", avatar: "2", selected: true, cards: 12, points: 8},
         2: {name: "Joanna", avatar: "5", selected: false, cards: 5, points: 2},
         3: {name: "Sally", avatar: "4", selected: false, cards: 8, points: 7},
-        cards: [ {id: 2, name: "sock"}, {id: 1, name: "mitten"}, {id: 0, name: "shoe"}]
     }
 
     handleChange = event => {
@@ -91,7 +99,7 @@ class Playing extends Component {
         </div>
         );
 
-        let myCards = this.state.cards.map((item) => {
+        let myCards = this.state.me.cards.map((item) => {
             return <MyCard key={item.id} card={item} />;
         });
 
@@ -106,7 +114,10 @@ class Playing extends Component {
                 <div className={classes.cards}>
                     {myCards}
                 </div>
-                <Me name={this.state.me.name} avatar={this.state.me.avatar}/>
+                <div className={classes.meArea}>
+                    <MyPoints points={this.state.me.points}/>
+                    <Me name={this.state.me.name} avatar={this.state.me.avatar}/>
+                </div>
                 </Paper>
             </div>
         );

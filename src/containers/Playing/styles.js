@@ -56,6 +56,10 @@ const styles = theme => ({
         flexDirection: "row",
         justifyContent: "space-around"
     },
+    meArea: {
+        display: "flex",
+        justifyContent: "space-around"
+    },
     cards: {
         display: "flex",
         flexDirection: "row",
