@@ -21,7 +21,7 @@ class Playing extends Component {
         1: {name: "Bob", avatar: "2", selected: true, cards: 12, points: 8},
         2: {name: "Joanna", avatar: "5", selected: false, cards: 5, points: 2},
         3: {name: "Sally", avatar: "4", selected: false, cards: 8, points: 7},
-        cards: [ {id: 1, name: "sock"}, {id: 2, name: "mitten"}, {id: 3, name: "boot"}]
+        cards: [ {id: 2, name: "sock"}, {id: 1, name: "mitten"}, {id: 0, name: "shoe"}]
     }
 
     handleChange = event => {
@@ -92,7 +92,7 @@ class Playing extends Component {
         );
 
         let myCards = this.state.cards.map((item) => {
-            return <MyCard key={item.id} card={item.name} />;
+            return <MyCard key={item.id} card={item} />;
         });
 
         return (

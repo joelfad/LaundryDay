@@ -8,10 +8,11 @@ import laundry from "./laundryIcons";
 
 const myCard = props => {
     const { classes } = props;
+    console.log(props);
     return (
         <Card className={[classes.card, classes.selected].join(' ')}>
-            <img className={classes.icon} style={null} src={laundry[1]} alt=""/>
-            <Typography className={classes.num} variant="title">{props.card}</Typography>
+            <img className={classes.icon} style={null} src={laundry[props.card.id]} alt=""/>
+            <Typography className={classes.num} variant="title">{props.card.name}</Typography>
         </Card>
     );
 };

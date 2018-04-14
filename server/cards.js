@@ -1,7 +1,7 @@
 const OrderedDeck = [
     {name: 'shoe', id: 0}, {name: 'shoe', id: 0}, {name: 'shoe', id: 0}, {name: 'shoe', id: 0},
-    {name: 'mittens', id: 1}, {name: 'mittens', id: 1}, {name: 'mittens', id: 1}, {name: 'mittens', id: 1},
-    {name: 'socks', id: 2}, {name: 'socks', id: 2}, {name: 'socks', id: 2}, {name: 'socks', id: 2},
+    {name: 'mitten', id: 1}, {name: 'mitten', id: 1}, {name: 'mitten', id: 1}, {name: 'mitten', id: 1},
+    {name: 'sock', id: 2}, {name: 'sock', id: 2}, {name: 'sock', id: 2}, {name: 'sock', id: 2},
     {name: 'shorts', id: 3}, {name: 'shorts', id: 3}, {name: 'shorts', id: 3}, {name: 'shorts', id: 3},
     {name: 'shirt', id: 4}, {name: 'shirt', id: 4}, {name: 'shirt', id: 4}, {name: 'shirt', id: 4},
     {name: 'pants', id: 5}, {name: 'pants', id: 5}, {name: 'pants', id: 5}, {name: 'pants', id: 5},
