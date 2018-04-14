@@ -8,7 +8,7 @@ const me = props => {
     let { classes } = props;
     return (
         <div className={classes.me}>
-        <Avatar id={props.avatar} large/>
+        <Avatar index={props.avatar} large/>
             <div>
                 <Typography className={classes.name} variant="headline">{props.name}</Typography>
             </div>

@@ -11,7 +11,7 @@ import Lobby from "./containers/Lobby/Lobby";
 import GameLobby from "./containers/GameLobby/GameLobby";
 // import EndPage from "./components/EndPage/EndPage";
 import AvatarSelection from "./containers/AvatarSelection/AvatarSelection";
-// import Playing from "./containers/Playing/Playing";
+import Playing from "./containers/Playing/Playing";
 import { SocketProvider } from "./context/SocketContext/SocketContext";
 import { AuthProvider } from "./context/AuthContext/AuthContext";
 
@@ -22,17 +22,18 @@ class App extends Component {
             <MuiThemeProvider theme={theme}>
                 <SocketProvider>
                     <AuthProvider>
-                        <BrowserRouter>
+                        <Playing/>
+                        {/* <BrowserRouter>
                             <Switch>
                                 <Route path="/avatar" component={AvatarSelection}/>
                                 <Route path="/home" component={Home}/>
                                 <Route path="/lobby" component={Lobby}/>
-                                <Route path="/game/:id" component={GameLobby}/>
+                                <Route path="/game/:id" component={GameLobby}/> */}
                                 {/* <Route path="/" component={EndPage}/> This Page might be integrated into /game/:id */}
                                 {/* <Route path="/" component={Playing}/> This Page might be integrated into /game/:id */}
-                                <Route path="/" component={Login}/>
+                                {/* <Route path="/" component={Login}/>
                             </Switch>
-                        </BrowserRouter>
+                        </BrowserRouter> */}
                     </AuthProvider>
                 </SocketProvider>
             </MuiThemeProvider>

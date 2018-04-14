@@ -1,14 +1,7 @@
 import React from "react";
 import { withStyles } from "material-ui/styles";
 import avatarStyles from "./styles";
-
-function importAll(r) {
-    let images = [];
-    r.keys().map((item, index) => { images.push(r(item)); });
-    return images;
-}
-
-const avatars = importAll(require.context('./icons', false, /\.svg/));
+import avatars from "./avatarIcons";
 
 const avatar = props => {
     let { classes } = props;

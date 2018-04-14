@@ -10,7 +10,7 @@ const styles = theme => ({
     num: {
         fontFamily: theme.fonts.simple,
         margin: "auto",
-        color: theme.palette.primary.main
+        color: "white"
     }
 
 });
