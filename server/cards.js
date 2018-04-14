@@ -14,24 +14,19 @@ const OrderedDeck = [
     {name: 'dress', id: 12}, {name: 'dress', id: 12}, {name: 'dress', id: 12}, {name: 'dress', id: 12}
 ];
 
-function newDeck () {
+exports.newDeck = () => {
     let newDeck = Array.of(...OrderedDeck);
     shuffleDeck(newDeck);
     return newDeck;
+};
 
-
-    /**
-     * Randomize array element order in-place.
-     * Using Durstenfeld shuffle algorithm.
-     */
-    function shuffleDeck(deck) {
-        for (let i = deck.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [deck[i], deck[j]] = [deck[j], deck[i]];
-        }
+/**
+ * Randomize array element order in-place.
+ * Using Durstenfeld shuffle algorithm.
+ */
+function shuffleDeck(deck) {
+    for (let i = deck.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
     }
 }
-
-module.exports = {
-    newDeck: newDeck()
-};
