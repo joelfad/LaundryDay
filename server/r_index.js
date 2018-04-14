@@ -50,7 +50,7 @@ socketServer.on("connection", socket => {
                 sendResponse({goTo: "avatar"});
             }
             console.log("Got user:", userData);
-K        }).catch(error => {
+        }).catch(error => {
             console.log("Bad things happened:", error);
         });
     });
