@@ -19,12 +19,7 @@ const EndPage = props => {
                 <div className={classes.text}>
                 <Typography className={classes.content} variant="title">Made by Marissa Baden, Michael Geeraert, Taylor LaRiviere, Nicole Loison, Joel McFadden, and Rowan Moul.</Typography>
                 <br/>
-                <Typography className={classes.content} variant="title">Icons made by Freepik from www.flaticon.com</Typography>
-                <Typography className={classes.content} variant="title">Icons made by Twitter from www.flaticon.com</Typography>
-                <Typography className={classes.content} variant="title">Icons made by Smashicons from www.flaticon.com</Typography>
-                <Typography className={classes.content} variant="title">Icons made by Roundicons from www.flaticon.com</Typography>
-                <Typography className={classes.content} variant="title">Icons made by monkik from www.flaticon.com</Typography>
-                <Typography className={classes.content} variant="title">Icons made by Pixel Buddha from www.flaticon.com</Typography>
+                <Typography className={classes.content} variant="title">Icons made by Freepik, Twitter, Smashicons, Roundicons, monkik and Pixel Buddha from www.flaticon.com</Typography>
                 </div>
                 </div>
                 <div className={classes.grow} />
