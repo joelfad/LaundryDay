@@ -6,6 +6,7 @@ const socketio = require("socket.io");
 const { OAuth2Client } = require("google-auth-library");
 
 const { user } = require("./classes");
+const cards = require("./cards");
 
 const G_CLIENT_ID = "406419867255-aiscktvrh9qgf35pi1602b5pmt15040g.apps.googleusercontent.com";
 const port = 3001;
