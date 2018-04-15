@@ -4,6 +4,7 @@ import opponentStyles from "./styles";
 import Typography from "material-ui/Typography";
 import Avatar from "../Avatar/Avatar";
 import CardCount from "../Opponent/CardCount/CardCount";
+import OpponentPoints from "./OpponentPoints/OpponentPoints";
 
 const opponent = props => {
     let { classes } = props;
@@ -13,8 +14,10 @@ const opponent = props => {
                 <Typography className={classes.name} variant="headline">{props.name}</Typography>
             </div>
             <Avatar index={props.avatar} large selected={props.selected} turn={props.turn}/>
-            <Typography className={classes.name} variant="title">{props.points} points</Typography>
+            <div className={classes.nums}>
+            <OpponentPoints points={props.points}/>
             <CardCount numCards={props.numCards} selected={props.selected}/>
+            </div>
         </div>
     );
 };

@@ -7,15 +7,15 @@ import Style from "material-ui-icons/Style";
 
 const cardCount = props => {
     const { classes } = props;
-    let leftOffset = "6px";
+    let leftOffset = "2";
     if (props.numCards >= 10) {
-        leftOffset = "0px";
+        leftOffset = "1";
     }
     return (
         <div>
             <Style className={[classes.cards, props.selected ? classes.selected : classes.unselected].join(" ")}/>
-            <span className={classes.count} style={{marginLeft:"calc(21px + " + leftOffset + ")"}}>
-                <Typography className={classes.countText} variant="headline">{props.numCards}</Typography>
+            <span className={classes.count} style={{marginLeft:"calc(4vw + " + leftOffset +"vw)"}}>
+                <Typography className={classes.countText} variant="subheading">{props.numCards}</Typography>
             </span>
         </div>
     );

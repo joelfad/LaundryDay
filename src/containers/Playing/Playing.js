@@ -135,14 +135,18 @@ class Playing extends Component {
                     {myCards}
                 </div>
                 <div className={classes.meArea}>
+                    <div className={classes.grow}>
                     <MyPoints points={this.state.me.points}/>
+                    </div>
                     <Me name={this.state.me.name} avatar={this.state.me.avatar} turn={this.isMyTurn()}/>
+                    <div className={classes.grow}>
                     <Button
                         className={[classes.button, this.canAsk() ? classes.enableAsk : classes.disableAsk].join(" ")}
                         onClick={this.askHandler}
                     >
                         Ask
                     </Button>
+                    </div>
                 </div>
                 </Paper>
             </div>

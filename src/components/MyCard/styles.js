@@ -24,6 +24,19 @@ const styles = theme => ({
     },
     selected: {
         outline: "5px solid " + theme.palette.primary.main,    
+    },
+    "@media (max-width: 400px)": {
+        icon: {
+            width: "30px",
+            height: "30px",
+        },
+        num: {
+            fontSize: "0.75em"
+        },
+        card: {
+            width: "8vh",
+            height: "10vh"
+        }
     }
 });
 

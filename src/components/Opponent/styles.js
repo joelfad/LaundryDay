@@ -7,6 +7,10 @@ const styles = theme => ({
     },
     name: {
         fontFamily: theme.fonts.simple
+    },
+    nums: {
+        display: "flex",
+        flexDirection: "row"
     }
 });
 

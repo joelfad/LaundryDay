@@ -32,7 +32,6 @@ const styles = theme => ({
         color: theme.palette.primary.contrastText,
         textTransform: "capitalize",
         fontFamily: theme.fonts.simple,
-        alignSelf: "flex-end",
         fontSize: "1.5em",
     },
     enableAsk: {
@@ -64,24 +63,26 @@ const styles = theme => ({
     },
     messageBox: {
         display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
         width: "100%",
         height: "20vh",
         backgroundImage: "url(" + badge + ")",
-        backgroundSize: "80% 100%",
+        backgroundSize: "90% 80%",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
     },
     message: {
         transform: "rotate(-4deg)",
-        paddingLeft: "90px",
-        paddingRight: "80px",
+        paddingLeft: "50px",
+        paddingRight: "30px",
         paddingBottom: "22px",
         marginTop: "auto",
         marginBottom: "auto",
         textAlign: "center",
         color: theme.palette.primary.darkgrey,
         fontFamily: "Just Me Again Down Here",
-        fontSize: "2.5em",
+        fontSize: "1.5em",
         lineHeight: "100%"
     },
     // formControl: {
@@ -103,6 +104,17 @@ const styles = theme => ({
         marginLeft: "auto",
         marginRight: "auto",
         overflowX: "auto"
+    },
+    grow: {
+        width: "30vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    "@media (min-width: 500px)": {
+        message: {
+            fontSize: "2.5em"
+        }
     }
 });
 
