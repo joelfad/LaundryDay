@@ -115,6 +115,13 @@ const styles = theme => ({
         message: {
             fontSize: "2.5em"
         }
+    },
+    "@media (min-width: 900px)": {
+        messageBox: {
+             width: "800px",
+             marginLeft: "auto",
+             marginRight: "auto"
+        }
     }
 });
 
