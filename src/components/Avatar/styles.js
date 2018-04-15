@@ -5,15 +5,16 @@ const styles = theme => ({
         width: "50px",
         height: "50px",
         padding: "5px",
-        border: "5px solid " + theme.palette.primary.contrastText,    
-        borderRadius: "50%",
+        borderRadius: "50%"
+    },
+    unselected: {
+        border: "5px solid " + theme.palette.primary.contrastText
     },
     selected: {
-        width: "50px",
-        height: "50px",
-        padding: "5px",
-        border: "5px solid " + theme.palette.primary.main,    
-        borderRadius: "50%",
+        border: "5px solid " + theme.palette.primary.main  
+    },
+    turn: {
+        border: "5px solid " + theme.palette.primary.pastelpurple
     }
 });
 

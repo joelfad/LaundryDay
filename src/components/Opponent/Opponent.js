@@ -12,9 +12,9 @@ const opponent = props => {
             <div>
                 <Typography className={classes.name} variant="headline">{props.name}</Typography>
             </div>
-        <Avatar index={props.avatar} large selected={props.selected} clicked={props.clicked}/>
-        <Typography className={classes.name} variant="title">{props.points} points</Typography>
-        <CardCount num={props.cards}/>
+            <Avatar index={props.avatar} large selected={props.selected} turn={props.turn} clicked={props.clicked}/>
+            <Typography className={classes.name} variant="title">{props.points} points</Typography>
+            <CardCount numCards={props.numCards} selected={props.selected}/>
         </div>
     );
 };

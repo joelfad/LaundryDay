@@ -5,19 +5,19 @@ import avatars from "./avatarIcons";
 
 const avatar = props => {
     let { classes } = props;
-    let name = null;
+    let border = classes.unselected;
     let style = null;
     if (props.selected) {
-        name = classes.selected;
-    } else {
-        name = classes.icon;
+        border = classes.selected;
+    } else if (props.turn) {
+        border = classes.turn;
     }
     if (props.large) {
         style = {height:"10vh", width:"10vh"};
     }
     return (
         <div className={classes.avatar}>
-            <img className={name} style={style} src={avatars[props.index]} alt="" onClick={props.clicked}/>
+            <img className={[classes.icon, border].join(" ")} style={style} src={avatars[props.index]} alt="" onClick={props.clicked}/>
         </div>
     );
 };

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "material-ui/styles";
+// import { withAuth } from "../../context/AuthContext/AuthContext";
+// import { withSocket } from "../../context/SocketContext/SocketContext";
 import playingStyles from "./styles";
 import Me from "../../components/Me/Me";
 import MyPoints from "../../components/MyPoints/MyPoints";
@@ -7,10 +9,6 @@ import Opponent from "../../components/Opponent/Opponent";
 import MyCard from "../../components/MyCard/MyCard";
 import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
-import { InputLabel } from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
-import { FormControl } from 'material-ui/Form';
-import Select from 'material-ui/Select';
 import Button from 'material-ui/Button';
 import ExitToApp from "material-ui-icons/ExitToApp";
 
@@ -18,47 +16,54 @@ class Playing extends Component {
     state = {
         opponentSelected: -1,
         cardSelected: -1,
+        playersTurn: -1,
         card: "null",
         open: false,
-        me: {
-            name: "Marissa",
-            avatar: "3",
-            cards: [
-                {id: 2, name: "sock", selected: false},
-                {id: 1, name: "mitten", selected: false},
-                {id: 0, name: "shoe", selected: false}
-            ],
-            points: 12
-        },
+        myID: 3, // set by componentDidMount - this is who "you" are
+        me: { id: 3, name: "Marissa", avatar: "3", numCards: 3, points: 12},
+        cards: [
+            {id: 2, name: "sock", selected: false},
+            {id: 1, name: "mitten", selected: false},
+            {id: 0, name: "shoe", selected: false}
+        ],
         opponents: [
-            {name: "Bob", avatar: "2", selected: false, cards: 12, points: 8},
-            {name: "Joanna", avatar: "5", selected: false, cards: 5, points: 2},
-            {name: "Sally", avatar: "4", selected: false, cards: 8, points: 7}
+            {id: 0, name: "Bob", avatar: "2", selected: false, numCards: 12, points: 8},
+            {id: 1, name: "Joanna", avatar: "5", selected: false, numCards: 5, points: 2},
+            {id: 2, name: "Sally", avatar: "4", selected: false, numCards: 8, points: 7},
         ]
     };
 
+    isMyTurn = () => this.state.playersTurn === this.state.myID;
+
     selectedOpponentHandler = (index) => {
-        this.setState({opponentSelected: index});
+        this.isMyTurn() && this.setState({opponentSelected: index});
     }
 
     selectedCardHandler = (index) => {
-        this.setState({cardSelected: index});
+        this.isMyTurn() && this.setState({cardSelected: index});
     }
 
     askHandler = () => {
-        
+
     }
 
     quitGameHandler = () => {
-
+        let currentPlayer = this.state.playersTurn;
+        let numberOfPlayers = this.state.opponents.length + 1;
+        this.setState({playersTurn: (currentPlayer + 1) % numberOfPlayers})
     }
+
+    // componentDidMount() {
+    //     this.setState({myID: this.props.gAuth.currentUser.get().getId()});
+    // }
 
     render() {
         const { classes } = this.props;
-        let dummyCards = [ {id: 1, name: "sock"}, {id: 2, name: "mitten"}, {id: 3, name: "boot"}];
-        let menuItems = dummyCards.map((card) => {
-            return <MenuItem key={card.id} value={card.id}>{card.name}</MenuItem>;
-        });
+
+        console.log("Player #" + this.state.playersTurn + "'s turn.");
+        if (this.isMyTurn()) {
+            console.log ("MY TURN");
+        }
 
         const opponents = [];
         for (let i = 0; i < this.state.opponents.length; i++) {
@@ -69,7 +74,8 @@ class Playing extends Component {
                     name={this.state.opponents[i].name} 
                     avatar={this.state.opponents[i].avatar} 
                     selected={this.state.opponentSelected === i}
-                    cards={this.state.opponents[i].cards}
+                    turn={this.state.playersTurn === this.state.opponents[i].id}
+                    numCards={this.state.opponents[i].numCards}
                     points={this.state.opponents[i].points}
                 />
             );
@@ -84,12 +90,12 @@ class Playing extends Component {
         );
 
         const myCards = [];
-        for (let i = 0; i < this.state.me.cards.length; i++) {
+        for (let i = 0; i < this.state.cards.length; i++) {
             myCards.push(
                 <MyCard
                     key={i}
                     clicked={() => this.selectedCardHandler(i)}
-                    card={this.state.me.cards[i]}
+                    card={this.state.cards[i]}
                     selected={this.state.cardSelected === i}
                 />
             );
@@ -98,7 +104,7 @@ class Playing extends Component {
         return (
             <div className={classes.playing}>
                 <Typography className={classes.title} variant="title">Laundry Day</Typography>
-                <ExitToApp className={classes.quitButton}/>
+                <ExitToApp className={classes.quitButton} onClick={this.quitGameHandler}/>
                 <Paper className={classes.paper}>
                 <div className={classes.opponents}>
                     {opponents}
@@ -109,7 +115,7 @@ class Playing extends Component {
                 </div>
                 <div className={classes.meArea}>
                     <MyPoints points={this.state.me.points}/>
-                    <Me name={this.state.me.name} avatar={this.state.me.avatar}/>
+                    <Me name={this.state.me.name} avatar={this.state.me.avatar} turn={this.isMyTurn()}/>
                     <Button className={classes.button}>Ask</Button>
                 </div>
                 </Paper>
@@ -119,4 +125,5 @@ class Playing extends Component {
 }
 
 
+// export default withSocket()(withAuth()(withStyles(playingStyles, { withTheme: true })(Playing)));
 export default withStyles(playingStyles, { withTheme: true })(Playing);

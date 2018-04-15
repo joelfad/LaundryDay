@@ -1,6 +1,11 @@
 const styles = theme => ({
     cards: {
-        fontSize: "55px",
+        fontSize: "55px"
+    },
+    selected: {
+        color: theme.palette.primary.main
+    },
+    unselected: {
         color: theme.palette.primary.darkgrey
     },
     count: {

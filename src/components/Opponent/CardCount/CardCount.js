@@ -8,14 +8,14 @@ import Style from "material-ui-icons/Style";
 const cardCount = props => {
     const { classes } = props;
     let leftOffset = "6px";
-    if (props.num >= 10) {
+    if (props.numCards >= 10) {
         leftOffset = "0px";
     }
     return (
         <div>
-            <Style className={classes.cards}/>
+            <Style className={[classes.cards, props.selected ? classes.selected : classes.unselected].join(" ")}/>
             <span className={classes.count} style={{marginLeft:"calc(21px + " + leftOffset + ")"}}>
-                <Typography className={classes.countText} variant="headline">{props.num}</Typography>
+                <Typography className={classes.countText} variant="headline">{props.numCards}</Typography>
             </span>
         </div>
     );

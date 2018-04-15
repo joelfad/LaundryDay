@@ -36,11 +36,11 @@ const styles = theme => ({
         alignSelf: "flex-end",
         fontSize: "1.5em",
         "&:hover": {
-            backgroundColor: theme.palette.primary.mainLight
+            backgroundColor: theme.palette.primary.light
         }
     },
     quitButton: {
-        color: theme.palette.primary.mainDark,
+        color: theme.palette.primary.dark,
         display: "block",
         position: "absolute",
         top: "34px",
