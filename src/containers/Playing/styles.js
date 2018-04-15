@@ -36,7 +36,7 @@ const styles = theme => ({
         alignSelf: "flex-end",
         fontSize: "1.5em",
         "&:hover": {
-            backgroundColor: theme.palette.primary.hover
+            backgroundColor: theme.palette.primary.mainLight
         }
     },
     quitButton: {

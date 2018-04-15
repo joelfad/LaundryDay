@@ -16,40 +16,41 @@ import ExitToApp from "material-ui-icons/ExitToApp";
 
 class Playing extends Component {
     state = {
+        opponentSelected: -1,
+        cardSelected: -1,
         card: "null",
         open: false,
         me: {
             name: "Marissa",
             avatar: "3",
             cards: [
-                {id: 2, name: "sock"},
-                {id: 1, name: "mitten"},
-                {id: 0, name: "shoe"}
+                {id: 2, name: "sock", selected: false},
+                {id: 1, name: "mitten", selected: false},
+                {id: 0, name: "shoe", selected: false}
             ],
-            points: 12},
-        opponentIds: [1,2,3],
-        1: {name: "Bob", avatar: "2", selected: true, cards: 12, points: 8},
-        2: {name: "Joanna", avatar: "5", selected: false, cards: 5, points: 2},
-        3: {name: "Sally", avatar: "4", selected: false, cards: 8, points: 7},
+            points: 12
+        },
+        opponents: [
+            {name: "Bob", avatar: "2", selected: false, cards: 12, points: 8},
+            {name: "Joanna", avatar: "5", selected: false, cards: 5, points: 2},
+            {name: "Sally", avatar: "4", selected: false, cards: 8, points: 7}
+        ]
+    };
+
+    selectedOpponentHandler = (index) => {
+        this.setState({opponentSelected: index});
     }
 
-    handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
-    };
-    
-    handleClose = () => {
-        this.setState({ open: false });
-    };
-    
-    handleOpen = () => {
-        this.setState({ open: true });
-    };
+    selectedCardHandler = (index) => {
+        this.setState({cardSelected: index});
+    }
 
-    selectedHandler = (prop) => {
-        this.state.opponentIds.forEach((key) => {
-            this.setState({[key]: {...this.state[key], selected: false}});
-        });
-        this.setState({[prop]: {...this.state[prop], selected: true}});
+    askHandler = () => {
+        
+    }
+
+    quitGameHandler = () => {
+
     }
 
     render() {
@@ -59,55 +60,40 @@ class Playing extends Component {
             return <MenuItem key={card.id} value={card.id}>{card.name}</MenuItem>;
         });
 
-        let opponents = this.state.opponentIds.map((opponent) => {
-            return ( 
+        const opponents = [];
+        for (let i = 0; i < this.state.opponents.length; i++) {
+            opponents.push(
                 <Opponent
-                    key={opponent} 
-                    clicked={() => this.selectedHandler(opponent)}
-                    name={this.state[opponent].name} 
-                    avatar={this.state[opponent].avatar} 
-                    selected={this.state[opponent].selected}
-                    cards={this.state[opponent].cards}
-                    points={this.state[opponent].points}
-            />);
-        });
+                    key={i} 
+                    clicked={() => this.selectedOpponentHandler(i)}
+                    name={this.state.opponents[i].name} 
+                    avatar={this.state.opponents[i].avatar} 
+                    selected={this.state.opponentSelected === i}
+                    cards={this.state.opponents[i].cards}
+                    points={this.state.opponents[i].points}
+                />
+            );
+        }
 
-        let select = (
-        <div className={classes.messageBox}>
-            <div className={classes.message}>
-                "Bob, do you have a sweater?" - Marissa
+        let message = (
+            <div className={classes.messageBox}>
+                <div className={classes.message}>
+                    "Bob, do you have a sweater?" - Marissa
+                </div>
             </div>
-        </div>
-        // <div className={classes.select}>
-        //     <Typography className={classes.question} variant="headline">
-        //         Do you have a:
-        //     </Typography>
-        //     <FormControl className={classes.formControl}>
-        //         <InputLabel htmlFor="controlled-open-select">Card</InputLabel>
-        //         <Select
-        //             open={this.state.open}
-        //             onClose={this.handleClose}
-        //             onOpen={this.handleOpen}
-        //             value={this.state.card}
-        //             onChange={this.handleChange}
-        //             inputProps={{
-        //             name: 'card',
-        //             id: 'controlled-open-select',
-        //             }}
-        //         >
-        //         {menuItems}
-        //         </Select>
-        //     </FormControl>
-        //     <Typography className={classes.question} variant="title">
-        //         ?
-        //     </Typography>
-        //     <Button className={classes.button}>Ask</Button>
-        // </div>
         );
 
-        let myCards = this.state.me.cards.map((item) => {
-            return <MyCard key={item.id} card={item} />;
-        });
+        const myCards = [];
+        for (let i = 0; i < this.state.me.cards.length; i++) {
+            myCards.push(
+                <MyCard
+                    key={i}
+                    clicked={() => this.selectedCardHandler(i)}
+                    card={this.state.me.cards[i]}
+                    selected={this.state.cardSelected === i}
+                />
+            );
+        }
 
         return (
             <div className={classes.playing}>
@@ -117,7 +103,7 @@ class Playing extends Component {
                 <div className={classes.opponents}>
                     {opponents}
                 </div>
-                {select}
+                    {message}
                 <div className={classes.cards}>
                     {myCards}
                 </div>
