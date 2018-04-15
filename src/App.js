@@ -22,18 +22,17 @@ class App extends Component {
             <MuiThemeProvider theme={theme}>
                 <SocketProvider>
                     <AuthProvider>
-                        <Playing/>
-                        {/* <BrowserRouter>
+                        <BrowserRouter>
                             <Switch>
                                 <Route path="/avatar" component={AvatarSelection}/>
                                 <Route path="/home" component={Home}/>
                                 <Route path="/lobby" component={Lobby}/>
-                                <Route path="/game/:id" component={GameLobby}/> */}
+                                <Route path="/game/:id" component={GameLobby}/>
                                 {/* <Route path="/" component={EndPage}/> This Page might be integrated into /game/:id */}
                                 {/* <Route path="/" component={Playing}/> This Page might be integrated into /game/:id */}
-                                {/* <Route path="/" component={Login}/>
+                                <Route path="/" component={Login}/>
                             </Switch>
-                        </BrowserRouter> */}
+                        </BrowserRouter>
                     </AuthProvider>
                 </SocketProvider>
             </MuiThemeProvider>
