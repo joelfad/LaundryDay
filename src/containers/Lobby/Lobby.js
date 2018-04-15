@@ -51,7 +51,7 @@ class Lobby extends Component {
                         key={game.id}
                         name={game.name}
                         num={game.numPlayers}
-                        onClick={this.joinGameHandler(game.id)}
+                        joinGameHandler={this.joinGameHandler(game.id)}
                     />;
         });
         if (games.length === 0) {
