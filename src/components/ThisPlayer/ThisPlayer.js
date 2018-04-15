@@ -1,10 +1,10 @@
 import React from "react";
 import { withStyles } from "material-ui/styles";
-import meStyles from "./styles";
+import thisPlayerStyles from "./styles";
 import Typography from "material-ui/Typography";
 import Avatar from "../Avatar/Avatar";
 
-const me = props => {
+const thisPlayer = props => {
     let { classes } = props;
     return (
         <div className={classes.me}>
@@ -16,4 +16,4 @@ const me = props => {
     );
 };
 
-export default withStyles(meStyles, { withTheme: true })(me);
+export default withStyles(thisPlayerStyles, { withTheme: true })(thisPlayer);

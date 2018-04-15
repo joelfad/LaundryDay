@@ -96,9 +96,6 @@ const styles = theme => ({
         fontSize: "1.5em",
         lineHeight: "100%"
     },
-    // formControl: {
-    //     width: "100px"
-    // },
     opponents: {
         display: "flex",
         flexDirection: "row",

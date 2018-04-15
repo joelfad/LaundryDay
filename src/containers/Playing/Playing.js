@@ -3,7 +3,7 @@ import { withStyles } from "material-ui/styles";
 // import { withAuth } from "../../context/AuthContext/AuthContext";
 // import { withSocket } from "../../context/SocketContext/SocketContext";
 import playingStyles from "./styles";
-import Me from "../../components/Me/Me";
+import ThisPlayer from "../../components/ThisPlayer/ThisPlayer";
 import MyPoints from "../../components/MyPoints/MyPoints";
 import Opponent from "../../components/Opponent/Opponent";
 import MyCard from "../../components/MyCard/MyCard";
@@ -20,7 +20,7 @@ class Playing extends Component {
         cardSelected: null,
         playersTurn: -1,
         myID: 3, // set by componentDidMount - this is who "you" are
-        me: { id: 3, name: "Marissa", avatar: "3", numCards: 3, points: 12},
+        thisPlayer: { id: 3, name: "Marissa", avatar: "3", numCards: 3, points: 12},
         cards: [
             {id: 2, name: "sock", selected: false},
             {id: 1, name: "mitten", selected: false},
@@ -72,16 +72,16 @@ class Playing extends Component {
             }
 
             // TODO: send "ask" request to server
-            console.log("Sending request: ", request);  // DEBUG
+            console.log("Sending `ask` event: ", request);  // DEBUG
 
             this.clearSelections();
             this.debugNextTurn(); // DEBUG
         }
     }
 
-    quitGameHandler = () => {
+    leaveGameHandler = () => {
         // TODO
-        console.log("Sending quit game event...");  // DEBUG
+        console.log("Sending `leaveGame` event...");  // DEBUG
     }
 
     debugNextTurn = () => {
@@ -144,7 +144,7 @@ class Playing extends Component {
                 <ConfirmDialog
                     title="Are you sure you want to end the game?"
                     text="Clicking 'YES' will end the game for all players."
-                    action={this.quitGameHandler}
+                    action={this.leaveGameHandler}
                 >
                     <ExitToApp className={classes.quitButton}/>
                 </ConfirmDialog>
@@ -158,9 +158,9 @@ class Playing extends Component {
                 </div>
                 <div className={classes.meArea}>
                     <div className={classes.grow}>
-                    <MyPoints points={this.state.me.points}/>
+                    <MyPoints points={this.state.thisPlayer.points}/>
                     </div>
-                    <Me name={this.state.me.name} avatar={this.state.me.avatar} turn={this.isMyTurn()}/>
+                    <ThisPlayer name={this.state.thisPlayer.name} avatar={this.state.thisPlayer.avatar} turn={this.isMyTurn()}/>
                     <div className={classes.grow}>
                     <Button
                         className={[classes.button, this.canAsk() ? classes.enableAsk : classes.disableAsk].join(" ")}
