@@ -42,6 +42,10 @@ class GameContainer extends Component {
             this.setState({gameOver: true});
         });
 
+        this.props.socket.on("gameDeleted", () => {
+            this.props.history.push("/lobby");
+        });
+
         this.setState({thisPlayerID});
         this.props.socket.emit("joinGameRoom", this.props.match.params.id);
     }

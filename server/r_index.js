@@ -84,6 +84,7 @@ socketServer.on("connection", socket => {
             })
             delete state.games[gameID];
             sendResponse();
+            socketServer.to("game"+ gameID).emit("gameDeleted");
             lobbyUpdate();
             console.log(state.users[userID].name + " deleted game " + gameID);
         }
