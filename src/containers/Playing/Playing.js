@@ -12,6 +12,7 @@ import { MenuItem } from 'material-ui/Menu';
 import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import Button from 'material-ui/Button';
+import ExitToApp from "material-ui-icons/ExitToApp";
 
 class Playing extends Component {
     state = {
@@ -111,6 +112,7 @@ class Playing extends Component {
         return (
             <div className={classes.playing}>
                 <Typography className={classes.title} variant="title">Laundry Day</Typography>
+                <ExitToApp className={classes.quitButton}/>
                 <Paper className={classes.paper}>
                 <div className={classes.opponents}>
                     {opponents}
@@ -122,6 +124,7 @@ class Playing extends Component {
                 <div className={classes.meArea}>
                     <MyPoints points={this.state.me.points}/>
                     <Me name={this.state.me.name} avatar={this.state.me.avatar}/>
+                    <Button className={classes.button}>Ask</Button>
                 </div>
                 </Paper>
             </div>

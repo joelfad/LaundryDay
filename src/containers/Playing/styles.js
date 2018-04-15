@@ -26,7 +26,9 @@ const styles = theme => ({
     },
     button: {
         width: "0px",
-        margin:"10px",
+        height: "80px",
+        marginTop: "auto",
+        marginBottom: "auto",
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
         textTransform: "capitalize",
@@ -34,7 +36,18 @@ const styles = theme => ({
         alignSelf: "flex-end",
         fontSize: "1.5em",
         "&:hover": {
-            backgroundColor: theme.palette.primary.main
+            backgroundColor: theme.palette.primary.hover
+        }
+    },
+    quitButton: {
+        color: theme.palette.primary.mainDark,
+        display: "block",
+        position: "absolute",
+        top: "34px",
+        right: "14px",
+        fontSize: "40px",
+        "&:hover": {
+            color: "white"
         }
     },
     question: {
@@ -60,7 +73,7 @@ const styles = theme => ({
         marginTop: "auto",
         marginBottom: "auto",
         textAlign: "center",
-        color: "#454545",
+        color: theme.palette.primary.darkgrey,
         fontFamily: "Just Me Again Down Here",
         fontSize: "2.5em",
         lineHeight: "100%"

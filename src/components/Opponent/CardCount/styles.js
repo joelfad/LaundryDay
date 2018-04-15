@@ -1,7 +1,7 @@
 const styles = theme => ({
     cards: {
         fontSize: "55px",
-        color: "#454545"
+        color: theme.palette.primary.darkgrey
     },
     count: {
         display:"block",
