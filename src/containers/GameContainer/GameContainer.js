@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 import GameLobby from "../../components/GameLobby/GameLobby";
+import Playing from "../Playing/Playing";
+import EndPage from "../../components/EndPage/EndPage";
 import { withAuth } from "../../context/AuthContext/AuthContext";
 import { withSocket } from "../../context/SocketContext/SocketContext";
 
@@ -40,6 +42,10 @@ class GameContainer extends Component {
             this.setState({gameOver: true});
         });
 
+        this.props.socket.on("gameDeleted", () => {
+            this.props.history.push("/lobby");
+        });
+
         this.setState({thisPlayerID});
         this.props.socket.emit("joinGameRoom", this.props.match.params.id);
     }
@@ -56,11 +62,31 @@ class GameContainer extends Component {
         });
     }
 
+    handleLeaveGame = () => {
+        this.props.socket.emit("leaveGame", this.props.match.params.id, () => {
+            this.props.history.push("/lobby");
+        });
+    }
+
+    handleStartGame = () => {
+        this.props.socket.emit("startGame", this.props.match.params.id);
+    }
+
     render() {
         if (this.state.gameStarted) {
-
+            if (this.state.gameOver) {
+                return <EndPage />;
+            } else {
+                return <Playing />;
+            }
         } else {
-            return <GameLobby creator={this.state.thisPlayerID === this.state.creator} players={this.state.players} handleCloseGame={this.handleCloseGame}/>
+            return <GameLobby
+                        creator={this.state.thisPlayerID === this.state.creator}
+                        players={this.state.players}
+                        handleCloseGame={this.handleCloseGame}
+                        handleLeaveGame={this.handleLeaveGame}
+                        handleStartGame={this.handleStartGame}
+                    />
         }
     }
 }

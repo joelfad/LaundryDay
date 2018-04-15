@@ -15,14 +15,23 @@ const gameLobby = props => {
         if (props.creator) {
             buttons = (
                 <div className={classes.buttons}>
-                    <Button className={classes.button} variant="raised" onClick={props.handleCloseGame}>Close Lobby</Button>
-                    <Button className={classes.button} variant="raised">Start Game</Button>
+                    <Button
+                        className={classes.button}
+                        variant="raised"
+                        onClick={props.handleCloseGame}
+                    >Close Lobby</Button>
+                    <Button
+                        className={classes.button}
+                        disabled={props.players.length < 2}
+                        variant="raised"
+                        onClick={props.handleStartGame}
+                    >Start Game</Button>
                 </div>
             );
         } else {
             buttons = (
                 <div className={classes.buttons}>
-                    <Button className={classes.button} variant="raised">Exit Lobby</Button>
+                    <Button className={classes.button} variant="raised" onClick={props.handleLeaveGame}>Exit Lobby</Button>
                 </div>
             );
         }
