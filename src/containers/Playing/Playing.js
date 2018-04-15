@@ -11,6 +11,8 @@ import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 import Button from 'material-ui/Button';
 import ExitToApp from "material-ui-icons/ExitToApp";
+import SkipNext from "material-ui-icons/SkipNext";
+import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 
 class Playing extends Component {
     state = {
@@ -29,8 +31,17 @@ class Playing extends Component {
             {id: 1, name: "Joanna", avatar: "5", selected: false, numCards: 5, points: 2},
             {id: 2, name: "Sally", avatar: "4", selected: false, numCards: 8, points: 7},
         ],
-        message: "\"Bob, do you have a sweater?\" - Marissa"
+        message: "\"Bob, do you have a sweater?\" - Marissa",
+        confirmQuit: false
     };
+
+    confirmQuitOpen = () => {
+        this.setState({confirmQuit: true});
+    }
+
+    confirmQuitClose = () => {
+        this.setState({confirmQuit: false});
+    }
 
     isMyTurn = () => this.state.playersTurn === this.state.myID;
 
@@ -64,12 +75,16 @@ class Playing extends Component {
             console.log("Sending request: ", request);  // DEBUG
 
             this.clearSelections();
-            this.quitGameHandler(); // DEBUG
+            this.debugNextTurn(); // DEBUG
         }
     }
 
     quitGameHandler = () => {
+        // TODO
+        console.log("Sending quit game event...");  // DEBUG
+    }
 
+    debugNextTurn = () => {
         // DEBUG
         let currentPlayer = this.state.playersTurn;
         let numberOfPlayers = this.state.opponents.length + 1;
@@ -125,7 +140,14 @@ class Playing extends Component {
         return (
             <div className={classes.playing}>
                 <Typography className={classes.title} variant="title">Laundry Day</Typography>
-                <ExitToApp className={classes.quitButton} onClick={this.quitGameHandler}/>
+                <SkipNext className={classes.debugNextTurnButton} onClick={this.debugNextTurn}/>
+                <ConfirmDialog
+                    title="Are you sure you want to end the game?"
+                    text="Clicking 'YES' will end the game for all players."
+                    action={this.quitGameHandler}
+                >
+                    <ExitToApp className={classes.quitButton}/>
+                </ConfirmDialog>
                 <Paper className={classes.paper}>
                 <div className={classes.opponents}>
                     {opponents}

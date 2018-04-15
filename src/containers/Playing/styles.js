@@ -55,6 +55,17 @@ const styles = theme => ({
             color: theme.palette.primary.contrastText
         }
     },
+    debugNextTurnButton: {
+        color: theme.palette.primary.dark,
+        display: "block",
+        position: "absolute",
+        top: "34px",
+        left: "14px",
+        fontSize: "40px",
+        "&:hover": {
+            color: theme.palette.primary.contrastText
+        }
+    },
     question: {
         fontFamily: theme.fonts.simple,
         paddingLeft: "10px",
