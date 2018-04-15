@@ -8,20 +8,39 @@ class GameContainer extends Component {
     state = {
         players: [],
         currentTurn: 0,
+        creator: 123,
         gameStarted: false,
         gameOver: false,
-        thisPlayer: 1234
+        thisPlayerID: 1234,
+        thisPlayerHand: [],
+        message: ""
     }
 
     componentDidMount() {
-        let thisPlayer = this.props.gAuth.currentUser.get().getId();
-        this.setState({thisPlayer});
+        let thisPlayerID = this.props.gAuth.currentUser.get().getId();
 
         this.props.socket.on("gameUpdate", payload => {
-            console.log(payload);
+            console.log("Got game update:", payload);
             this.setState(payload);
         });
 
+        this.props.socket.on("handUpdate", payload => {
+            this.setState({thisPlayerHand: payload});
+        });
+
+        this.props.socket.on("messageUpdate", payload => {
+            this.setState({message: payload});
+        });
+
+        this.props.socket.on("gameStart", () => {
+            this.setState({gameStarted: true});
+        });
+
+        this.props.socket.on("gameOver", () => {
+            this.setState({gameOver: true});
+        });
+
+        this.setState({thisPlayerID});
         this.props.socket.emit("joinGameRoom", this.props.match.params.id);
     }
 
@@ -41,7 +60,7 @@ class GameContainer extends Component {
         if (this.state.gameStarted) {
 
         } else {
-            return <GameLobby handleCloseGame={this.handleCloseGame}/>
+            return <GameLobby creator={this.state.thisPlayerID === this.state.creator} players={this.state.players} handleCloseGame={this.handleCloseGame}/>
         }
     }
 }

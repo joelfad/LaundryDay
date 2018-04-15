@@ -10,15 +10,14 @@ import Player from "../Player/Player";
 const gameLobby = props => {
         const { classes } = props;
         
-        let gameCreator = true;
         let buttons = null;
 
-        if (gameCreator) {
+        if (props.creator) {
             buttons = (
-            <div className={classes.buttons}>
-                <Button className={classes.button} variant="raised" onClick={props.handleCloseGame}>Close Lobby</Button>
-                <Button className={classes.button} variant="raised">Start Game</Button>
-            </div>
+                <div className={classes.buttons}>
+                    <Button className={classes.button} variant="raised" onClick={props.handleCloseGame}>Close Lobby</Button>
+                    <Button className={classes.button} variant="raised">Start Game</Button>
+                </div>
             );
         } else {
             buttons = (
@@ -27,21 +26,16 @@ const gameLobby = props => {
                 </div>
             );
         }
-        let dummyData = {
-            1: {name: "Player 1", avatar: "3"},
-            2: {name: "Player 2", avatar: "2"},
-            3: {name: "Player 3", avatar: "1"},
-        }
 
-        let games = Object.keys(dummyData).map((id) => {
-            return <Player key={id} name={dummyData[id].name} avatar={dummyData[id].avatar}/>
+        let players = props.players.map(player => {
+            return <Player key={player.id} name={player.name} avatar={player.avatar}/>;
         });
 
         return (
             <div className={classes.lobby}>
                 <Typography className={classes.title} variant="title">{props.name}</Typography>
                 <Paper className={classes.paper}>
-                    {games}
+                    {players}
                 </Paper>
                 <div className={classes.grow}></div>
                 { buttons }

@@ -202,7 +202,8 @@ function gameUpdate(gameID) {
                 avatar: state.users[playerID].avatar
             };
         }),
-        currentTurn: game.currentTurn
+        currentTurn: game.currentTurn,
+        creator: game.creator
     };
     socketServer.to("game" + gameID).emit("gameUpdate", payload);
     console.log("Sent update for game " + gameID);
