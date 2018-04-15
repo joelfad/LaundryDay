@@ -8,11 +8,11 @@ import CardCount from "../Opponent/CardCount/CardCount";
 const opponent = props => {
     let { classes } = props;
     return (
-        <div className={classes.me}>
+        <div className={classes.me} onClick={props.clicked}>
             <div>
                 <Typography className={classes.name} variant="headline">{props.name}</Typography>
             </div>
-            <Avatar index={props.avatar} large selected={props.selected} turn={props.turn} clicked={props.clicked}/>
+            <Avatar index={props.avatar} large selected={props.selected} turn={props.turn}/>
             <Typography className={classes.name} variant="title">{props.points} points</Typography>
             <CardCount numCards={props.numCards} selected={props.selected}/>
         </div>
