@@ -12,6 +12,11 @@ const styles = theme => ({
         display: "flex",
         flexDirection: "row"
     },
+    newrow: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+    },
     "@media (min-width: 1100px)": {
         newrow: {
             display: "flex",
