@@ -68,6 +68,10 @@ class GameContainer extends Component {
         });
     }
 
+    handleStartGame = () => {
+        this.props.socket.emit("startGame");
+    }
+
     render() {
         if (this.state.gameStarted) {
             if (this.state.gameOver) {
@@ -81,6 +85,7 @@ class GameContainer extends Component {
                         players={this.state.players}
                         handleCloseGame={this.handleCloseGame}
                         handleLeaveGame={this.handleLeaveGame}
+                        handleStartGame={this.handleStartGame}
                     />
         }
     }
