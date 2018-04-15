@@ -21,7 +21,7 @@ class Lobby extends Component {
         this.props.socket.emit("joinLobby");
 
         this.props.socket.on("lobbyUpdate", payload => {
-            console.log(payload);
+            console.log("Got lobby update:", payload);
             this.setState({games: payload});
         });
     }

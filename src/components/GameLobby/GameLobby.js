@@ -22,7 +22,7 @@ const gameLobby = props => {
         } else {
             buttons = (
                 <div className={classes.buttons}>
-                    <Button className={classes.button} variant="raised">Exit Lobby</Button>
+                    <Button className={classes.button} variant="raised" onClick={props.handleLeaveGame}>Exit Lobby</Button>
                 </div>
             );
         }
