@@ -72,31 +72,36 @@ class Playing extends Component {
         });
 
         let select = (
-        <div className={classes.select}>
-            <Typography className={classes.question} variant="headline">
-                Do you have a:
-            </Typography>
-            <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="controlled-open-select">Card</InputLabel>
-                <Select
-                    open={this.state.open}
-                    onClose={this.handleClose}
-                    onOpen={this.handleOpen}
-                    value={this.state.card}
-                    onChange={this.handleChange}
-                    inputProps={{
-                    name: 'card',
-                    id: 'controlled-open-select',
-                    }}
-                >
-                {menuItems}
-                </Select>
-            </FormControl>
-            <Typography className={classes.question} variant="title">
-                ?
-            </Typography>
-            <Button className={classes.button}>Ask</Button>
+        <div className={classes.messageBox}>
+            <div className={classes.message}>
+                "Bob, do you have a sweater?" - Marissa
+            </div>
         </div>
+        // <div className={classes.select}>
+        //     <Typography className={classes.question} variant="headline">
+        //         Do you have a:
+        //     </Typography>
+        //     <FormControl className={classes.formControl}>
+        //         <InputLabel htmlFor="controlled-open-select">Card</InputLabel>
+        //         <Select
+        //             open={this.state.open}
+        //             onClose={this.handleClose}
+        //             onOpen={this.handleOpen}
+        //             value={this.state.card}
+        //             onChange={this.handleChange}
+        //             inputProps={{
+        //             name: 'card',
+        //             id: 'controlled-open-select',
+        //             }}
+        //         >
+        //         {menuItems}
+        //         </Select>
+        //     </FormControl>
+        //     <Typography className={classes.question} variant="title">
+        //         ?
+        //     </Typography>
+        //     <Button className={classes.button}>Ask</Button>
+        // </div>
         );
 
         let myCards = this.state.me.cards.map((item) => {

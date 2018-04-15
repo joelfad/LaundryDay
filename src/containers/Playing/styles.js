@@ -1,3 +1,5 @@
+import badge from "./img/speech_bubble.png";
+
 const styles = theme => ({
     title: {
         textAlign: "center",
@@ -41,12 +43,27 @@ const styles = theme => ({
         paddingRight: "10px",
         textAlign: "center"
     },
-    select: {
+    messageBox: {
         display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        marginLeft: "auto",
-        marginRight: "auto"
+        width: "100%",
+        height: "20vh",
+        backgroundImage: "url(" + badge + ")",
+        backgroundSize: "80% 100%",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+    },
+    message: {
+        transform: "rotate(-4deg)",
+        paddingLeft: "90px",
+        paddingRight: "80px",
+        paddingBottom: "22px",
+        marginTop: "auto",
+        marginBottom: "auto",
+        textAlign: "center",
+        color: "#454545",
+        fontFamily: "Just Me Again Down Here",
+        fontSize: "2.5em",
+        lineHeight: "100%"
     },
     formControl: {
         width: "100px"
