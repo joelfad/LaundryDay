@@ -14,11 +14,9 @@ import ExitToApp from "material-ui-icons/ExitToApp";
 
 class Playing extends Component {
     state = {
-        opponentSelected: -1,
-        cardSelected: -1,
+        opponentSelected: null,
+        cardSelected: null,
         playersTurn: -1,
-        card: "null",
-        open: false,
         myID: 3, // set by componentDidMount - this is who "you" are
         me: { id: 3, name: "Marissa", avatar: "3", numCards: 3, points: 12},
         cards: [
@@ -35,6 +33,15 @@ class Playing extends Component {
 
     isMyTurn = () => this.state.playersTurn === this.state.myID;
 
+    canAsk = () => this.isMyTurn() && this.state.opponentSelected !== null && this.state.cardSelected !== null;
+
+    clearSelections = () => {
+        this.setState({
+            opponentSelected: null,
+            cardSelected: null,
+        });
+    }
+
     selectedOpponentHandler = (index) => {
         this.isMyTurn() && this.setState({opponentSelected: index});
     }
@@ -44,13 +51,29 @@ class Playing extends Component {
     }
 
     askHandler = () => {
+        if (this.canAsk()) {
 
+            let request = {
+                myID: this.state.myID,
+                cardID: this.state.cardSelected,
+                opponentID: this.state.opponentSelected
+            }
+
+            // TODO: send "ask" request to server
+            console.log("Sending request: ", request);  // DEBUG
+
+            this.clearSelections();
+            this.quitGameHandler(); // DEBUG
+        }
     }
 
     quitGameHandler = () => {
+
+        // DEBUG
         let currentPlayer = this.state.playersTurn;
         let numberOfPlayers = this.state.opponents.length + 1;
         this.setState({playersTurn: (currentPlayer + 1) % numberOfPlayers})
+        this.clearSelections();
     }
 
     // componentDidMount() {
@@ -60,10 +83,7 @@ class Playing extends Component {
     render() {
         const { classes } = this.props;
 
-        console.log("Player #" + this.state.playersTurn + "'s turn.");
-        if (this.isMyTurn()) {
-            console.log ("MY TURN");
-        }
+        console.log("Player #" + this.state.playersTurn + "'s turn.");  // DEBUG
 
         const opponents = [];
         for (let i = 0; i < this.state.opponents.length; i++) {
@@ -116,7 +136,12 @@ class Playing extends Component {
                 <div className={classes.meArea}>
                     <MyPoints points={this.state.me.points}/>
                     <Me name={this.state.me.name} avatar={this.state.me.avatar} turn={this.isMyTurn()}/>
-                    <Button className={classes.button}>Ask</Button>
+                    <Button
+                        className={[classes.button, this.canAsk() ? classes.enableAsk : classes.disableAsk].join(" ")}
+                        onClick={this.askHandler}
+                    >
+                        Ask
+                    </Button>
                 </div>
                 </Paper>
             </div>

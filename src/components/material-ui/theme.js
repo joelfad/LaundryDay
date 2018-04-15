@@ -8,6 +8,7 @@ const theme = createMuiTheme({
             dark: "#00838F",
             contrastText: "#FFFFFF",
             darkgrey: "#454545",
+            lightgrey: "#E0E0E0",
             pastelred: "#FF6962",
             pastelpurple: "#B19BD9"
         }

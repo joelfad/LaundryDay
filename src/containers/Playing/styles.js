@@ -29,15 +29,21 @@ const styles = theme => ({
         height: "80px",
         marginTop: "auto",
         marginBottom: "auto",
-        backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
         textTransform: "capitalize",
         fontFamily: theme.fonts.simple,
         alignSelf: "flex-end",
         fontSize: "1.5em",
+    },
+    enableAsk: {
+        backgroundColor: theme.palette.primary.main,
         "&:hover": {
             backgroundColor: theme.palette.primary.light
         }
+    },
+    disableAsk: {
+        backgroundColor: theme.palette.primary.lightgrey,
+        pointerEvents: "none"
     },
     quitButton: {
         color: theme.palette.primary.dark,
@@ -47,7 +53,7 @@ const styles = theme => ({
         right: "14px",
         fontSize: "40px",
         "&:hover": {
-            color: "white"
+            color: theme.palette.primary.contrastText
         }
     },
     question: {
@@ -78,9 +84,9 @@ const styles = theme => ({
         fontSize: "2.5em",
         lineHeight: "100%"
     },
-    formControl: {
-        width: "100px"
-    },
+    // formControl: {
+    //     width: "100px"
+    // },
     opponents: {
         display: "flex",
         flexDirection: "row",
