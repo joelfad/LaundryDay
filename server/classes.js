@@ -21,8 +21,13 @@ class Game {
         this.deck = newDeck();
 
         this.addPlayer = (playerID) => {
-            this.players[playerID] = { hand: [], points: 0};
-            this.playerOrder.push(playerID);
+            if (this.players[userID] && Object.keys(this.players).length < 4) {
+                this.players[playerID] = { hand: [], points: 0};
+                this.playerOrder.push(playerID);
+                return true;
+            } else {
+                return false;
+            }
         }
 
         this.removePlayer = (playerID) => {
