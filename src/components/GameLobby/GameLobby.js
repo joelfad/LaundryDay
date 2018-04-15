@@ -1,26 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import { withStyles } from "material-ui/styles";
 import gameLobbyStyles from "./styles";
 import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
-import Player from "../../components/Player/Player";
 
-import { withAuth } from "../../context/AuthContext/AuthContext";
-import { withSocket } from "../../context/SocketContext/SocketContext";
+import Player from "../Player/Player";
 
-class GameLobby extends Component {
-    state = {
-    }
-
-    handleCloseGame = () => {
-        this.props.socket.emit("deleteGame", this.props.match.params.id, () => {
-            this.props.history.push("/lobby");
-        });
-    }
-
-    render() {
-        const { classes } = this.props;
+const gameLobby = props => {
+        const { classes } = props;
         
         let gameCreator = true;//this.props.creator;
         let buttons = null;
@@ -59,8 +47,6 @@ class GameLobby extends Component {
                 { buttons }
             </div>
         );
-    }
 }
 
-
-export default withSocket()(withAuth()(withStyles(gameLobbyStyles, { withTheme: true })(GameLobby)));
+export default withStyles(gameLobbyStyles, {withTheme: true})(gameLobby);
