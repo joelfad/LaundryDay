@@ -1,18 +1,16 @@
 const styles = theme => ({
-    card: {
-        marginTop: "10px",
-        width: "40px",
-        height: "50px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
+    cards: {
+        fontSize: "55px",
+        color: "#454545"
     },
-    num: {
+    count: {
+        display:"block",
+        marginTop:"-46px",
+    },
+    countText: {
         fontFamily: theme.fonts.simple,
-        margin: "auto",
         color: "white"
     }
-
 });
 
 export default styles;
