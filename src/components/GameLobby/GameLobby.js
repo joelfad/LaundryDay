@@ -10,13 +10,13 @@ import Player from "../Player/Player";
 const gameLobby = props => {
         const { classes } = props;
         
-        let gameCreator = true;//this.props.creator;
+        let gameCreator = true;
         let buttons = null;
 
         if (gameCreator) {
             buttons = (
             <div className={classes.buttons}>
-                <Button className={classes.button} variant="raised" onClick={this.handleCloseGame}>Close Lobby</Button>
+                <Button className={classes.button} variant="raised" onClick={props.handleCloseGame}>Close Lobby</Button>
                 <Button className={classes.button} variant="raised">Start Game</Button>
             </div>
             );
@@ -39,7 +39,7 @@ const gameLobby = props => {
 
         return (
             <div className={classes.lobby}>
-                <Typography className={classes.title} variant="title">{this.props.name}</Typography>
+                <Typography className={classes.title} variant="title">{props.name}</Typography>
                 <Paper className={classes.paper}>
                     {games}
                 </Paper>

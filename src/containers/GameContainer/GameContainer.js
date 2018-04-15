@@ -9,19 +9,20 @@ class GameContainer extends Component {
         players: [],
         currentTurn: 0,
         gameStarted: false,
-        gameOver: false
+        gameOver: false,
+        thisPlayer: 1234
     }
 
     componentDidMount() {
         let thisPlayer = this.props.gAuth.currentUser.get().getId();
         this.setState({thisPlayer});
 
-        this.props.socket.emit("joinGameRoom");
-
         this.props.socket.on("gameUpdate", payload => {
             console.log(payload);
             this.setState(payload);
         });
+
+        this.props.socket.emit("joinGameRoom", this.props.match.params.id);
     }
 
     componentWillUnmount() {
@@ -40,7 +41,7 @@ class GameContainer extends Component {
         if (this.state.gameStarted) {
 
         } else {
-            return <GameLobby/>
+            return <GameLobby handleCloseGame={this.handleCloseGame}/>
         }
     }
 }

@@ -62,6 +62,7 @@ socketServer.on("connection", socket => {
         if (userID) {
             state.users[userID].avatar = avatarIndex;
             sendResponse();
+            console.log(state.users[userID].name + " set their avatar");
         }
     });
 
@@ -72,6 +73,7 @@ socketServer.on("connection", socket => {
             state.users[userID].inGame = gameID;
             sendResponse(gameID);
             lobbyUpdate();
+            console.log(state.users[userID].name + " created game " + gameID);
         }
     });
 
@@ -83,6 +85,7 @@ socketServer.on("connection", socket => {
             delete state.games[gameID];
             sendResponse();
             lobbyUpdate();
+            console.log(state.users[userID].name + " deleted game " + gameID);
         }
     });
 
@@ -90,12 +93,14 @@ socketServer.on("connection", socket => {
         if (userID) {
             socket.join("lobby");
             lobbyUpdate();
+            console.log(state.users[userID].name + " joined the lobby");
         }
     });
 
     socket.on("leaveLobby", () => {
         if (userID) {
             socket.leave("lobby");
+            console.log(state.users[userID].name + " left the lobby");
         }
     });
 
@@ -106,6 +111,7 @@ socketServer.on("connection", socket => {
                 sendResponse(true);
                 gameUpdate(gameID);
                 lobbyUpdate();
+                console.log(state.users[userID].name + " joined game " + gameID);
             } else {
                 sendResponse(false);
             }
@@ -121,6 +127,8 @@ socketServer.on("connection", socket => {
                 state.users[userID].inGame = -1;
                 gameUpdate(gameID);
                 lobbyUpdate();
+                sendResponse();
+                console.log(state.users[userID].name + " left game " + gameID);
             }
         }
     });
@@ -129,12 +137,14 @@ socketServer.on("connection", socket => {
         if (userID) {
             socket.join("game" + gameID);
             gameUpdate(gameID);
+            console.log(state.users[userID].name + " joined room for game " + gameID);
         }
     });
 
     socket.on("leaveGameRoom", gameID => {
         if (userID) {
             socket.leave("game" + gameID);
+            console.log(state.users[userID].name + " left room for game " + gameID);
         }
     });
 
@@ -177,10 +187,23 @@ async function verifyToken(idToken) {
         }
     }
     socketServer.to("lobby").emit("lobbyUpdate", payload);
+    console.log("Sent update for lobby");
 }
 
 function gameUpdate(gameID) {
-    let payload = {};
-    // TODO
+    const game = state.games[gameID];
+    let payload = {
+        players: game.playerOrder.map((playerID) => {
+            return {
+                id: playerID,
+                numCards: game.players[playerID].hand.length,
+                points: game.players[playerID].points,
+                name: state.users[playerID].name,
+                avatar: state.users[playerID].avatar
+            };
+        }),
+        currentTurn: game.currentTurn
+    };
     socketServer.to("game" + gameID).emit("gameUpdate", payload);
+    console.log("Sent update for game " + gameID);
 }
