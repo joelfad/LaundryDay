@@ -78,7 +78,7 @@ socketServer.on("connection", socket => {
     });
 
     socket.on("deleteGame", (gameID, sendResponse) => {
-        if (userID) {
+        if (userID && state.games[gameID].creator == userID) {
             Object.keys(state.games[gameID].players).forEach(playerID => {
                 state.users[playerID].inGame = -1;
             })
@@ -146,6 +146,12 @@ socketServer.on("connection", socket => {
         if (userID) {
             socket.leave("game" + gameID);
             console.log(state.users[userID].name + "_" + state.users[userID].id.slice(0, 5) + " left room for game " + gameID);
+        }
+    });
+
+    socket.on("startGame", gameID => {
+        if (userID && state.games[gameID].creator == userID) {
+            socketServer.to("game" + gameID).emit("gameStart");
         }
     });
 

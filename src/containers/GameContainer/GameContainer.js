@@ -69,7 +69,7 @@ class GameContainer extends Component {
     }
 
     handleStartGame = () => {
-        this.props.socket.emit("startGame");
+        this.props.socket.emit("startGame", this.props.match.params.id);
     }
 
     render() {
