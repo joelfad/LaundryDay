@@ -28,7 +28,8 @@ class Playing extends Component {
             {id: 0, name: "Bob", avatar: "2", selected: false, numCards: 12, points: 8},
             {id: 1, name: "Joanna", avatar: "5", selected: false, numCards: 5, points: 2},
             {id: 2, name: "Sally", avatar: "4", selected: false, numCards: 8, points: 7},
-        ]
+        ],
+        message: "\"Bob, do you have a sweater?\" - Marissa"
     };
 
     isMyTurn = () => this.state.playersTurn === this.state.myID;
@@ -104,7 +105,7 @@ class Playing extends Component {
         let message = (
             <div className={classes.messageBox}>
                 <div className={classes.message}>
-                    "Bob, do you have a sweater?" - Marissa
+                    {this.state.message}
                 </div>
             </div>
         );
