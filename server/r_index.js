@@ -101,15 +101,40 @@ socketServer.on("connection", socket => {
 
     socket.on("joinGame", (gameID, sendResponse) => {
         if (userID) {
-            // do stuff
-            lobbyUpdate();
+            if (state.games[gameID].addPlayer(userID)) {
+                state.users[userID].inGame = gameID;
+                sendResponse(true);
+                gameUpdate(gameID);
+                lobbyUpdate();
+            } else {
+                sendResponse(false);
+            }
         }
     });
 
     socket.on("leaveGame", (gameID, sendResponse) => {
         if (userID) {
-            // do stuff
-            lobbyUpdate();
+            if (state.games[gameID.started]) {
+                // Do end-game stuff
+            } else {
+                state.games[gameID].removePlayer(userID);
+                state.users[userID].inGame = -1;
+                gameUpdate(gameID);
+                lobbyUpdate();
+            }
+        }
+    });
+
+    socket.on("joinGameRoom", gameID => {
+        if (userID) {
+            socket.join("game" + gameID);
+            gameUpdate(gameID);
+        }
+    });
+
+    socket.on("leaveGameRoom", gameID => {
+        if (userID) {
+            socket.leave("game" + gameID);
         }
     });
 
@@ -152,4 +177,10 @@ async function verifyToken(idToken) {
         }
     }
     socketServer.to("lobby").emit("lobbyUpdate", payload);
+}
+
+function gameUpdate(gameID) {
+    let payload = {};
+    // TODO
+    socketServer.to("game" + gameID).emit("gameUpdate", payload);
 }

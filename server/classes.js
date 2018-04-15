@@ -14,8 +14,21 @@ class Game {
     constructor(id, userID) {
         this.id = id;
         this.players = {[userID]: {hand: [], points: 0}};
+        this.playerOrder = [userID];
+        this.currentTurn = 0;
+        this.creator = userID;
         this.started = false;
         this.deck = newDeck();
+
+        this.addPlayer = (playerID) => {
+            this.players[playerID] = { hand: [], points: 0};
+            this.playerOrder.push(playerID);
+        }
+
+        this.removePlayer = (playerID) => {
+            delete this.players[playerID];
+            this.playerOrder = this.playerOrder.filter(playerIDElement => playerIDElement !== playerID);
+        }
     }
 };
 
