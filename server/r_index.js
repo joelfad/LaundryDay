@@ -75,6 +75,17 @@ socketServer.on("connection", socket => {
         }
     });
 
+    socket.on("deleteGame", (gameID, sendResponse) => {
+        if (userID) {
+            Object.keys(state.games[gameID].players).forEach(playerID => {
+                state.users[playerID].inGame = -1;
+            })
+            delete state.games[gameID];
+            sendResponse();
+            lobbyUpdate();
+        }
+    });
+
     socket.on("joinLobby", () => {
         if (userID) {
             socket.join("lobby");

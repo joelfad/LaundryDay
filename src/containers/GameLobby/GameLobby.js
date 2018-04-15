@@ -7,26 +7,28 @@ import Button from "material-ui/Button";
 import Player from "../../components/Player/Player";
 
 import { withAuth } from "../../context/AuthContext/AuthContext";
+import { withSocket } from "../../context/SocketContext/SocketContext";
 
 class GameLobby extends Component {
     state = {
     }
 
-    sendNewUserRequest = () => {
-        // send some sort of message to the backend
-        console.log("Game request submitted");
+    handleCloseGame = () => {
+        this.props.socket.emit("deleteGame", this.props.match.params.id, () => {
+            this.props.history.push("/lobby");
+        });
     }
 
     render() {
         const { classes } = this.props;
         
-        let gameCreator = this.props.creator;
+        let gameCreator = true;//this.props.creator;
         let buttons = null;
 
         if (gameCreator) {
             buttons = (
             <div className={classes.buttons}>
-                <Button className={classes.button} variant="raised">Close Lobby</Button>
+                <Button className={classes.button} variant="raised" onClick={this.handleCloseGame}>Close Lobby</Button>
                 <Button className={classes.button} variant="raised">Start Game</Button>
             </div>
             );
@@ -61,4 +63,4 @@ class GameLobby extends Component {
 }
 
 
-export default withAuth()(withStyles(gameLobbyStyles, { withTheme: true })(GameLobby));
+export default withSocket()(withAuth()(withStyles(gameLobbyStyles, { withTheme: true })(GameLobby)));

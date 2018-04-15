@@ -1,49 +1,73 @@
 import React, { Component } from "react";
 import { withStyles } from "material-ui/styles";
-import lobbyStyles from "./styles";
 import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
-import Game from "../../components/Game/Game";
+import Button from "material-ui/Button";
+import AddIcon from "material-ui-icons/Add";
 
 import { withAuth } from "../../context/AuthContext/AuthContext";
+import { withSocket } from "../../context/SocketContext/SocketContext";
+import Game from "../../components/Game/Game";
+
+import lobbyStyles from "./styles";
+
 
 class Lobby extends Component {
     state = {
+        games: []
     }
 
-    sendNewUserRequest = () => {
-        // send some sort of message to the backend
-        console.log("Game request submitted");
+    componentDidMount() {
+        this.props.socket.emit("joinLobby");
+
+        this.props.socket.on("lobbyUpdate", payload => {
+            console.log(payload);
+            this.setState({games: payload});
+        });
+    }
+
+    componentWillUnmount() {
+        this.props.socket.emit("leaveLobby");
+
+        this.props.socket.removeAllListeners();
+    }
+
+    newGameHandler = () => {
+        this.props.socket.emit("createGame", gameID => {
+            this.props.history.push("/game/" + gameID);
+        });
+    }
+
+    joinGameHandler = gameID => () => {
+        this.props.socket.emit("joinGame", gameID, () => {
+            this.props.history.push("/game/" + gameID);
+        });
     }
 
     render() {
-        let dummyData = {
-            1: {name: "Game 1", numPlayers: "3"},
-            2: {name: "Game 2", numPlayers: "1"},
-            3: {name: "Game 3", numPlayers: "2"},
-            4: {name: "Game 4", numPlayers: "3"},
-            5: {name: "Game 5", numPlayers: "1"},
-            6: {name: "Game 6", numPlayers: "2"},
-            7: {name: "Game 7", numPlayers: "3"},
-            8: {name: "Game 8", numPlayers: "1"},
-            9: {name: "Game 9", numPlayers: "2"},
-        }
-
-        let games = Object.keys(dummyData).map((id) => {
-            return <Game key={id} name={dummyData[id].name} num={dummyData[id].numPlayers}/>;
-        });
-
         const { classes } = this.props;
+        let games = this.state.games.map(game => {
+            return <Game
+                        key={game.id}
+                        name={game.name}
+                        num={game.numPlayers}
+                        onClick={this.joinGameHandler(game.id)}
+                    />;
+        });
+        if (games.length === 0) {
+            games = <Typography className={classes.noGames} variant="subheading">There are no games available, please create one.</Typography>;
+        }
         return (
             <div className={classes.lobby}>
                 <Typography className={classes.title} variant="title">Games</Typography>
                 <Paper className={classes.paper}>
                     {games}
                 </Paper>
+                <Button className={classes.newGame} variant="fab" size="medium" color="secondary" onClick={this.newGameHandler}><AddIcon/></Button>
             </div>
         );
     }
 }
 
 
-export default withAuth()(withStyles(lobbyStyles, { withTheme: true })(Lobby));
+export default withSocket()(withAuth()(withStyles(lobbyStyles, { withTheme: true })(Lobby)));

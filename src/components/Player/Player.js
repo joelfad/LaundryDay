@@ -9,7 +9,7 @@ const player = props => {
     return (
         <Fragment>
         <div className={classes.player}>
-        <Avatar id={props.avatar}/>
+        <Avatar index={props.avatar}/>
             <div>
                 <Typography className={classes.name} variant="title">{props.name}</Typography>
             </div>

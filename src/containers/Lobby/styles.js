@@ -18,6 +18,15 @@ const styles = theme => ({
         maxHeight: "calc(100vh - 126px)",
         width: "calc(100vw - 40px)",
         overflowY: "auto"
+    },
+    newGame: {
+        position: "absolute",
+        right: "0px",
+        bottom: "0px",
+        margin: "20px"
+    },
+    noGames: {
+        margin: "10px"
     }
 
 });

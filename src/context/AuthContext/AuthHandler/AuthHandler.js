@@ -21,7 +21,9 @@ class AuthHandler extends Component {
                         this.props.history.replace("/game/" + response.id);
                         break;
                     case "home":
-                        this.props.history.replace("/home");
+                        if (this.props.match.url !== "/lobby" && this.props.match.url === "/avatar") {
+                            this.props.history.replace("/home");
+                        }
                         break;
                     default:
                         // do not re-route
