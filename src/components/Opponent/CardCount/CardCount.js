@@ -14,7 +14,7 @@ const cardCount = props => {
     return (
         <div>
             <Style className={[classes.cards, props.selected ? classes.selected : classes.unselected].join(" ")}/>
-            <span className={classes.count} style={{marginLeft:"calc(4vw + " + leftOffset +"vw)"}}>
+            <span className={classes.count} style={{paddingLeft:"calc(4vw + " + leftOffset +"vw)"}}>
                 <Typography className={classes.countText} variant="subheading">{props.numCards}</Typography>
             </span>
         </div>

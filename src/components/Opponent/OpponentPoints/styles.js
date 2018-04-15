@@ -25,7 +25,13 @@ const styles = theme => ({
         count: {
             fontSize: "2em"
         },
-    } 
+    },
+    "@media (min-width: 1100px)": {
+        badge: {
+            maxWidth: "75px",
+            maxHeight: "75px"
+    }
+} 
 });
 
 export default styles;

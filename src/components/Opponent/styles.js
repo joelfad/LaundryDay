@@ -11,7 +11,14 @@ const styles = theme => ({
     nums: {
         display: "flex",
         flexDirection: "row"
+    },
+    "@media (min-width: 1100px)": {
+        newrow: {
+            display: "flex",
+            flexDirection: "row"
+        }
     }
+
 });
 
 export default styles;
