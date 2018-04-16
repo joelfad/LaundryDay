@@ -175,18 +175,29 @@ socketServer.on("connection", socket => {
         if (userID && game.playerOrder[game.currentTurn] === userID) {
             sendMessage(gameID, state.users[responderID].name + " do you have a " + cardName + "? - " + state.users[askerID].name);
             setTimeout(() => {
+                let gameOver = false;
                 if (game.askForCard(askerID, responderID, cardID)) {
+                    if (game.players[askerID].hand.length === 0 || game.players[responderID].hand.length === 0) {
+                        gameOver = true;
+                    }
                     gameUpdate(gameID);
                     handUpdate([askerID, responderID], gameID);
                     sendMessage(gameID, "Yes I have a " + cardName + ". - " + state.users[responderID].name);
                 } else if (game.goFish(askerID)) {
+                    if (game.players[askerID].hand.length === 0) {
+                        gameOver = true;
+                    }
                     game.nextTurn();
                     gameUpdate(gameID);
                     handUpdate([askerID], gameID);
                     sendMessage(gameID, "Go Fish! - " + state.users[responderID].name);
                 } else {
+                    gameOver = true;
+                }
+
+                if (gameOver) {
                     // There are no more cards, the game is over
-                    let winners = game.findWinner();
+                    let {winners, losers} = game.findWinner();
                     if (winners.length > 1) {
                         winners.forEach(winnerID => {
                             state.users[winnerID].socket.emit("gameOver", "tie");
@@ -195,7 +206,7 @@ socketServer.on("connection", socket => {
                         state.users[winners[0]].socket.emit("gameOver", "win");
                     }
                     losers.forEach(loserID => {
-                        state.users[losersID].socket.emit("gameOver", "lose");
+                        state.users[loserID].socket.emit("gameOver", "lose");
                     });
                     // Delete the game
                     state.games[gameID].playerOrder.forEach(playerID => {

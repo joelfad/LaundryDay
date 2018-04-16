@@ -92,11 +92,11 @@ class Game {
             let winner = {id: 1234, points: -1};
             this.playerOrder.forEach(playerID => {
                 if (this.players[playerID].points > winner.points) {
-                    winner = {id: playerID, points: this.players[playerID]};
+                    winner = {id: playerID, points: this.players[playerID].points};
                 }
             });
             // check for tie:
-            let winners = [winner.id];
+            let winners = [];
             let losers = [];
             this.playerOrder.forEach(playerID => {
                 if (this.players[playerID].points === winner.points) {
