@@ -8,8 +8,8 @@ import { withSocket } from "../../context/SocketContext/SocketContext";
 
 class GameContainer extends Component {
     state = {
-        players: [],        // DONE
-        currentTurn: -1,    // DONE
+        players: [],
+        currentTurn: -1,
         creator: 123,
         gameStarted: false,
         gameOver: false,
@@ -19,7 +19,7 @@ class GameContainer extends Component {
             {id: 1, name: "mitten"},
             {id: 0, name: "shoe"}
         ],
-        message: "\"Bob, do you have a sweater?\" - Marissa",   // DONE
+        message: "\"Bob, do you have a sweater?\" - Marissa",
         selectedCard: null,
         selectedOpponent: null
     }
@@ -32,11 +32,12 @@ class GameContainer extends Component {
         let thisPlayerID = this.props.gAuth.currentUser.get().getId();
 
         this.props.socket.on("gameUpdate", payload => {
-            console.log("Got game update:", payload);
+            console.log("Got game update:", payload);   // DEBUG
 
             // assign turn to players
             payload.players.map((player, index) => {
                 player.turn = index === payload.currentTurn;
+                return player;
             });
 
             this.clearSelections();
@@ -113,7 +114,8 @@ class GameContainer extends Component {
         let payload = {
             askerID: this.state.thisPlayerID,
             cardID: this.state.thisPlayerHand[this.state.cardSelected].id,
-            responderID: this.props.match.params.id
+            responderID: this.state.players[this.state.selectedOpponent].id,
+            gameID: this.props.match.params.id
         };
         this.props.socket.emit("ask", payload);
         this.clearSelections();

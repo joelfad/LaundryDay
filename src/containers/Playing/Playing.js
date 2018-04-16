@@ -9,7 +9,6 @@ import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 import Button from 'material-ui/Button';
 import ExitToApp from "material-ui-icons/ExitToApp";
-import SkipNext from "material-ui-icons/SkipNext";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 
 class Playing extends Component {
@@ -30,14 +29,17 @@ class Playing extends Component {
     render() {
         const { classes } = this.props;
 
+        console.log(this.props);
+
         const opponents = [];
         // all players except the last one are opponents
         for (let i = 0; i < this.props.players.length - 1; i++) {
+            console.log(i)  //DEBUG
             opponents.push(
                 <Opponent
                     key={i} 
                     clicked={() => this.props.selectOpponentHandler(i)}
-                    player={this.props.player[i]}
+                    player={this.props.players[i]}
                     selected={this.props.selectedOpponent === i}
                 />
             );
