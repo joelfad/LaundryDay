@@ -153,7 +153,7 @@ socketServer.on("connection", socket => {
         if (userID && state.games[gameID].creator == userID) {
             state.games[gameID].deal();
             gameUpdate(gameID);
-            handUpdate(state.games[gameID].playerOrder);
+            handUpdate(state.games[gameID].playerOrder, gameID);
             socketServer.to("game" + gameID).emit("gameStart");
         }
     });
