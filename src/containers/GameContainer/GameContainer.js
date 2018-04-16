@@ -18,7 +18,7 @@ class GameContainer extends Component {
         message: "",
         selectedCard: null,
         selectedOpponent: null,
-        mickProof: true
+        mickProof: true // prevent pro-gamers from playing faster than the server
     }
 
     isThisPlayersTurn = () => this.state.thisPlayerID === this.state.players[this.state.currentTurn].id;
