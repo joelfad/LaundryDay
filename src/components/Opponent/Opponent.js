@@ -14,10 +14,10 @@ const opponent = props => {
                 <Typography className={classes.name} variant="headline">{props.player.name}</Typography>
             </div>
             <div className={classes.newrow}>
-            <Avatar index={props.player.avatar} large selected={props.player.selected} turn={props.player.turn}/>
+            <Avatar index={props.player.avatar} large selected={props.selected} turn={props.player.turn}/>
                 <div className={classes.nums}>
-                <OpponentPoints points={props.player.points}/>
-                <CardCount numCards={props.player.numCards} selected={props.selected}/>
+                    <OpponentPoints points={props.player.points}/>
+                    <CardCount numCards={props.player.numCards} selected={props.selected}/>
                 </div>
             </div>
         </div>

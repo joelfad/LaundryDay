@@ -22,19 +22,7 @@ class GameContainer extends Component {
 
     isThisPlayersTurn = () => this.state.thisPlayerID === this.state.players[this.state.currentTurn].id;
     clearSelections = () => this.setState({ selectedCard: null, selectedOpponent: null });
-    askAllowed = () => {
-        if (this.isThisPlayersTurn()) {
-            console.log("is players turn");
-            if (this.state.selectedOpponent !== null) {
-                console.log("opponent is selected");
-                if (this.state.selectedCard !== null) {
-                    console.log("card is selected");
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    askAllowed = () => this.isThisPlayersTurn() && this.state.selectedOpponent !== null && this.state.selectedCard !== null;
 
     componentDidMount() {
         let thisPlayerID = this.props.gAuth.currentUser.get().getId();
@@ -56,13 +44,10 @@ class GameContainer extends Component {
                 payload.currentTurn = (payload.currentTurn + 1) % payload.players.length;
             }
 
-            console.log("Player #" + payload.currentTurn + "'s turn."); // DEBUG
-
             this.setState(payload);
         });
 
         this.props.socket.on("handUpdate", payload => {
-            console.log("Hand update: ", payload);  // DEBUG
             this.setState({thisPlayerHand: payload});
         });
 
@@ -113,16 +98,13 @@ class GameContainer extends Component {
 
     handleSelectOpponent = (index) => {
         this.isThisPlayersTurn() && this.setState({selectedOpponent: index});
-        console.log("Selected opponent #" + index); // DEBUG
     }
 
     handleSelectCard = (index) => {
         this.isThisPlayersTurn() && this.setState({selectedCard: index});
-        console.log("Selected card #" + index); // DEBUG
     }
 
     handleAsk = () => {
-        console.log("STATE", this.state);   // DEBUG
         let payload = {
             askerID: this.state.thisPlayerID,
             cardID: this.state.thisPlayerHand[this.state.selectedCard].id,
@@ -131,8 +113,6 @@ class GameContainer extends Component {
         };
         this.props.socket.emit("ask", payload);
         this.clearSelections();
-
-        console.log("ask: ", payload);  // DEBUG
     }
 
     render() {
@@ -149,7 +129,7 @@ class GameContainer extends Component {
                             selectedCard={this.state.selectedCard}
                             selectOpponentHandler={this.handleSelectOpponent}
                             selectCardHandler={this.handleSelectCard}
-                            askHandler={this.askAllowed ? this.handleAsk : null}
+                            askHandler={this.askAllowed() ? this.handleAsk : null}
                             leaveHandler={this.handleLeaveGame}
                         />;
             }
