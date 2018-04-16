@@ -34,6 +34,52 @@ class Game {
             delete this.players[playerID];
             this.playerOrder = this.playerOrder.filter(playerIDElement => playerIDElement !== playerID);
         }
+
+        this.deal = () => {
+            for (let i = 0; i < 7; i++) {
+                this.playerOrder.forEach(playerID => {
+                    this.addCardToHand(playerID, this.deck.pop());
+                });
+            }
+        }
+
+        this.askForCard = (askerID, responderID, cardID) => {
+            let responder = this.players[responderID];
+
+            let responderIndex = responder.hand.findIndex(cardInHand => {
+                return cardInHand.id === cardID;
+            });
+
+            if (responderIndex !== -1) {
+                this.addCardToHand(askerID, responder.hand.splice(responderIndex, 1)[0]);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        this.addCardToHand = (playerID, card) => {
+            let player = this.players[playerID];
+
+            let matchIndex = player.hand.findIndex(cardInHand => {
+                return cardInHand.id === card.id;
+            });
+            if (matchIndex === -1) {
+                player.hand.push(card);
+            } else {
+                player.hand.splice(matchIndex, 1);
+                player.points++;
+            }
+        }
+
+        this.goFish = playerID => {
+            if (this.deck.length === 0) {
+                return false;
+            } else {
+                this.addCardToHand(playerID, this.deck.pop());
+                return true;
+            }
+        }
     }
 };
 
