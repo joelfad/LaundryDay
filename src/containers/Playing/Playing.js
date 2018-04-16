@@ -28,9 +28,7 @@ class Playing extends Component {
 
     render() {
         const { classes } = this.props;
-
-        console.log(this.props);
-
+        
         const opponents = [];
         // all players except the last one are opponents
         for (let i = 0; i < this.props.players.length - 1; i++) {
