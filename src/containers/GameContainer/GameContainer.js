@@ -68,7 +68,12 @@ class GameContainer extends Component {
         });
 
         this.setState({thisPlayerID: thisPlayerID});
-        this.props.socket.emit("joinGameRoom", this.props.match.params.id);
+        
+        this.props.socket.emit("joinGameRoom", this.props.match.params.id, gameExists => {
+            if (!gameExists) {
+                this.props.history.replace("/lobby");
+            }
+        });
     }
 
     componentWillUnmount() {

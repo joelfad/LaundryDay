@@ -1,6 +1,7 @@
-import { Component } from "react";
+import React, { Component } from "react";
 
 import { withSocket } from "../../SocketContext/SocketContext";
+import LoginToContinue from "../../../components/LoginToContinue/LoginToContinue";
 
 class AuthHandler extends Component {
     componentDidMount() {
@@ -34,7 +35,11 @@ class AuthHandler extends Component {
     }
 
     render() {
-        return this.props.children;
+        if (this.props.socketAuth.isAuthenticated) {
+            return this.props.children;
+        } else {
+            return <LoginToContinue loading={true}/>;
+        }
     }
 }
 

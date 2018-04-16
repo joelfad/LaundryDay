@@ -134,16 +134,19 @@ socketServer.on("connection", socket => {
         }
     });
 
-    socket.on("joinGameRoom", gameID => {
-        if (userID) {
+    socket.on("joinGameRoom", (gameID, sendResponse) => {
+        if (userID && state.games[gameID] && state.games[gameID].players[userID]) {
             socket.join("game" + gameID);
             gameUpdate(gameID);
+            sendResponse(true);
             console.log(state.users[userID].name + "_" + state.users[userID].id.slice(0, 5) + " joined room for game " + gameID);
+        } else {
+            sendResponse(false);
         }
     });
 
     socket.on("leaveGameRoom", gameID => {
-        if (userID) {
+        if (userID && state.games[gameID] && state.games[gameID].players[userID]) {
             socket.leave("game" + gameID);
             console.log(state.users[userID].name + "_" + state.users[userID].id.slice(0, 5) + " left room for game " + gameID);
         }
@@ -151,6 +154,7 @@ socketServer.on("connection", socket => {
 
     socket.on("startGame", gameID => {
         if (userID && state.games[gameID].creator == userID) {
+            state.games[gameID].started = true;
             state.games[gameID].deal();
             gameUpdate(gameID);
             handUpdate(state.games[gameID].playerOrder, gameID);
@@ -233,7 +237,8 @@ function gameUpdate(gameID) {
             };
         }),
         currentTurn: game.currentTurn,
-        creator: game.creator
+        creator: game.creator,
+        gameStarted: game.started
     };
     socketServer.to("game" + gameID).emit("gameUpdate", payload);
     console.log("Sent update for game " + gameID);
@@ -244,4 +249,9 @@ function handUpdate(usersToUpdate, gameID) {
         state.users[userID].socket.emit("handUpdate", state.games[gameID].players[userID].hand);
     });
     console.log("Sent hand updates to:", usersToUpdate.map(userID => (state.users[userID].name + "_" + state.users[userID].id.slice(0, 5))));
+}
+
+function sendMessage(gameID, message) {
+    socketServer.to("game" + gameID).emit("message", message);
+    console.log("Sent message \"" + message + "\" to Game " + gameID);
 }
