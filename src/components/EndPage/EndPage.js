@@ -11,7 +11,7 @@ const EndPage = props => {
             case "win":
                 endTitle = "You win!";
                 break;
-            case "loss":
+            case "lose":
                 endTitle = "You lose!";
                 break;
             case "cancelled":
@@ -34,7 +34,7 @@ const EndPage = props => {
                 </div>
                 </div>
                 <div className={classes.grow} />
-                <Button className={classes.button} variant="raised">Start again</Button>
+                <Button className={classes.button} variant="raised" onClick={() => props.history.push("/home")}>Start again</Button>
             </div>
         );
 }

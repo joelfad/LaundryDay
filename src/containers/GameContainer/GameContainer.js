@@ -59,8 +59,8 @@ class GameContainer extends Component {
             this.setState({gameStarted: true});
         });
 
-        this.props.socket.on("gameOver", () => {
-            this.setState({gameOver: true});
+        this.props.socket.on("gameOver", payload => {
+            this.setState({gameOver: payload});
         });
 
         this.props.socket.on("gameDeleted", () => {
@@ -78,7 +78,6 @@ class GameContainer extends Component {
 
     componentWillUnmount() {
         this.props.socket.emit("leaveGameRoom");
-
         this.props.socket.removeAllListeners();
     }
 
@@ -89,7 +88,6 @@ class GameContainer extends Component {
     }
 
     handleLeaveGame = () => {
-        console.log("Sending `leaveGame` event...");  // DEBUG
         this.props.socket.emit("leaveGame", this.props.match.params.id, () => {
             this.props.history.push("/lobby");
         });
@@ -118,10 +116,15 @@ class GameContainer extends Component {
         this.clearSelections();
     }
 
+    // DEBUG
+    testGameOver = (state) => {
+        this.setState({gameOver: state});
+    }
+
     render() {
         if (this.state.gameStarted) {
             if (this.state.gameOver) {
-                return <EndPage />;
+                return <EndPage history={this.props.history}/>;
             } else {
                 return <Playing
                             players={this.state.players}
@@ -133,7 +136,7 @@ class GameContainer extends Component {
                             selectOpponentHandler={this.handleSelectOpponent}
                             selectCardHandler={this.handleSelectCard}
                             askHandler={this.askAllowed() ? this.handleAsk : null}
-                            leaveHandler={this.handleLeaveGame}
+                            leaveHandler={this.testGameOver}
                         />;
             }
         } else {
