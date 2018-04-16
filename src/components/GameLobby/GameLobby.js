@@ -19,7 +19,7 @@ const gameLobby = props => {
                         className={classes.button}
                         variant="raised"
                         onClick={props.handleCloseGame}
-                    >Close Lobby</Button>
+                    >Cancel Game</Button>
                     <Button
                         className={classes.button}
                         disabled={props.players.length < 2}
@@ -31,7 +31,7 @@ const gameLobby = props => {
         } else {
             buttons = (
                 <div className={classes.buttons}>
-                    <Button className={classes.button} variant="raised" onClick={props.handleLeaveGame}>Exit Lobby</Button>
+                    <Button className={classes.button} variant="raised" onClick={props.handleLeaveGame}>Leave Game</Button>
                 </div>
             );
         }
