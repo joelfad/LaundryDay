@@ -158,7 +158,7 @@ socketServer.on("connection", socket => {
         }
     });
 
-    socket.on("ask", playload => {
+    socket.on("ask", payload => {
         let {askerID, responderID, cardID, gameID} = payload;
         let game = state.games[gameID];
 
