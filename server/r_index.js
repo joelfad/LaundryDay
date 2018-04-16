@@ -122,7 +122,11 @@ socketServer.on("connection", socket => {
     socket.on("leaveGame", (gameID, sendResponse) => {
         if (userID) {
             if (state.games[gameID].started) {
-                // Do end-game stuff
+                socketServer.to("game" + gameID).emit("gameOver", "cancelled");
+                state.games[gameID].playerOrder.forEach(playerID => {
+                    state.users[playerID].inGame = -1;
+                });
+                delete state.games[gameID];
             } else {
                 state.games[gameID].removePlayer(userID);
                 state.users[userID].inGame = -1;
@@ -147,7 +151,7 @@ socketServer.on("connection", socket => {
     });
 
     socket.on("leaveGameRoom", gameID => {
-        if (userID && state.games[gameID] && state.games[gameID].players[userID]) {
+        if (userID) {
             socket.leave("game" + gameID);
             console.log(state.users[userID].name + "_" + state.users[userID].id.slice(0, 5) + " left room for game " + gameID);
         }
@@ -182,6 +186,7 @@ socketServer.on("connection", socket => {
                     sendMessage(gameID, "Go Fish! - " + state.users[responderID].name);
                 } else {
                     // There are no more cards, the game is over
+
                     socketServer.to("game" + gameID).emit("gameOver", {});
                 }
             }, 2000);
