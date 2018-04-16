@@ -7,10 +7,21 @@ import Typography from "material-ui/Typography";
 const EndPage = props => {
         const { classes } = props;
         let endTitle = null;
-        if (props.win) {
-            endTitle = "You win!"
-        } else {
-            endTitle = "You lose!"
+        switch (props.result){
+            case "win":
+                endTitle = "You win!";
+                break;
+            case "loss":
+                endTitle = "You lose!";
+                break;
+            case "cancelled":
+                endTitle = "Game cancelled!";
+                break;
+            case "tie":
+                endTitle = "You tied!";
+                break;
+            default:
+                endTitle = "Game over!" 
         }
         return (
             <div className={classes.endPage}>
