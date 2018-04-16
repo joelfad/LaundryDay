@@ -138,6 +138,7 @@ socketServer.on("connection", socket => {
         if (userID && state.games[gameID] && state.games[gameID].players[userID]) {
             socket.join("game" + gameID);
             gameUpdate(gameID);
+            handUpdate([userID], gameID);
             sendResponse(true);
             console.log(state.users[userID].name + "_" + state.users[userID].id.slice(0, 5) + " joined room for game " + gameID);
         } else {
@@ -154,31 +155,36 @@ socketServer.on("connection", socket => {
 
     socket.on("startGame", gameID => {
         if (userID && state.games[gameID].creator == userID) {
-            state.games[gameID].started = true;
             state.games[gameID].deal();
             gameUpdate(gameID);
             handUpdate(state.games[gameID].playerOrder, gameID);
+            sendMessage(gameID, "Welcome!");
             socketServer.to("game" + gameID).emit("gameStart");
+            state.games[gameID].started = true;
         }
     });
 
     socket.on("ask", payload => {
-        let {askerID, responderID, cardID, gameID} = payload;
+        let {askerID, responderID, cardID, cardName, gameID} = payload;
         let game = state.games[gameID];
 
         if (userID && game.playerOrder[game.currentTurn] === userID) {
-            if (game.askForCard(askerID, responderID, cardID)) {
-                gameUpdate(gameID);
-                handUpdate([askerID, responderID], gameID);
-            } else if (game.goFish(askerID)) {
-                game.nextTurn();
-                gameUpdate(gameID);
-                handUpdate([askerID], gameID);
-            } else {
-                // There are no more cards, the game is over
-                socketServer.to("game" + gameID).emit("gameOver", {});
-            }
-
+            sendMessage(gameID, state.users[responderID].name + " do you have a " + cardName + "? - " + state.users[askerID].name);
+            setTimeout(() => {
+                if (game.askForCard(askerID, responderID, cardID)) {
+                    gameUpdate(gameID);
+                    handUpdate([askerID, responderID], gameID);
+                    sendMessage(gameID, "Yes I have a " + cardName + ". - " + state.users[responderID].name);
+                } else if (game.goFish(askerID)) {
+                    game.nextTurn();
+                    gameUpdate(gameID);
+                    handUpdate([askerID], gameID);
+                    sendMessage(gameID, "Go Fish! - " + state.users[responderID].name);
+                } else {
+                    // There are no more cards, the game is over
+                    socketServer.to("game" + gameID).emit("gameOver", {});
+                }
+            }, 2000);
         }
     });
 
@@ -252,6 +258,6 @@ function handUpdate(usersToUpdate, gameID) {
 }
 
 function sendMessage(gameID, message) {
-    socketServer.to("game" + gameID).emit("message", message);
+    socketServer.to("game" + gameID).emit("messageUpdate", message);
     console.log("Sent message \"" + message + "\" to Game " + gameID);
 }

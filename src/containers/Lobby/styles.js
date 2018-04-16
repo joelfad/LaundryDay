@@ -27,8 +27,22 @@ const styles = theme => ({
     },
     noGames: {
         margin: "10px"
+    },
+    home: {
+        position: "absolute",
+        right: "0",
+        top: "0",
+        width: "100px",
+        margin: "10px",
+        fontSize: "1.3em",
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.contrastText,
+        textTransform: "capitalize",
+        fontFamily: theme.fonts.simple,
+        "&:hover": {
+            backgroundColor: theme.palette.primary.contrastText
+        }
     }
-
 });
 
 export default styles;

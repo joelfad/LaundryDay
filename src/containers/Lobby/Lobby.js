@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { withStyles } from "material-ui/styles";
 import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
@@ -58,13 +58,16 @@ class Lobby extends Component {
             games = <Typography className={classes.noGames} variant="subheading">There are no games available, please create one.</Typography>;
         }
         return (
-            <div className={classes.lobby}>
-                <Typography className={classes.title} variant="title">Games</Typography>
-                <Paper className={classes.paper}>
-                    {games}
-                </Paper>
-                <Button className={classes.newGame} variant="fab" size="medium" color="secondary" onClick={this.newGameHandler}><AddIcon/></Button>
-            </div>
+            <Fragment>
+                <Button className={classes.home} onClick={() => this.props.history.push("/")}>Home</Button>
+                <div className={classes.lobby}>
+                    <Typography className={classes.title} variant="title">Games</Typography>
+                    <Paper className={classes.paper}>
+                        {games}
+                    </Paper>
+                    <Button className={classes.newGame} variant="fab" size="medium" color="secondary" onClick={this.newGameHandler}><AddIcon/></Button>
+                </div>
+            </Fragment>
         );
     }
 }
