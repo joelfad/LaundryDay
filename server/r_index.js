@@ -79,9 +79,9 @@ socketServer.on("connection", socket => {
 
     socket.on("deleteGame", (gameID, sendResponse) => {
         if (userID && state.games[gameID].creator == userID) {
-            Object.keys(state.games[gameID].players).forEach(playerID => {
+            state.games[gameID].playerOrder.forEach(playerID => {
                 state.users[playerID].inGame = -1;
-            })
+            });
             delete state.games[gameID];
             sendResponse();
             socketServer.to("game"+ gameID).emit("gameDeleted");
@@ -121,7 +121,7 @@ socketServer.on("connection", socket => {
 
     socket.on("leaveGame", (gameID, sendResponse) => {
         if (userID) {
-            if (state.games[gameID.started]) {
+            if (state.games[gameID].started) {
                 // Do end-game stuff
             } else {
                 state.games[gameID].removePlayer(userID);
@@ -151,7 +151,26 @@ socketServer.on("connection", socket => {
 
     socket.on("startGame", gameID => {
         if (userID && state.games[gameID].creator == userID) {
+            state.games[gameID].deal();
+            gameUpdate(gameID);
+            handUpdate(state.games[gameID].playerOrder);
             socketServer.to("game" + gameID).emit("gameStart");
+        }
+    });
+
+    socket.on("ask", playload => {
+        let game = state.games[payload.gameID];
+        if (userID && game.playerOrder[game.currentTurn] === userID) {
+            if (game.askForCard(payload.askerID, payload.responderID, payload.cardID)) {
+                gameUpdate(payload.gameID);
+                handUpdate([payload.askerID, playload.responderID], payload.gameID);
+            } else if (game.goFish(payload.askerID)) {
+                gameUpdate(payload.gameID);
+                handUpdate([payload.askerID], payload.gameID);
+            } else {
+                // do end game stuff
+            }
+
         }
     });
 
@@ -188,7 +207,7 @@ async function verifyToken(idToken) {
       let payload = [];
     for (let key in state.games) {
         let game = state.games[key];
-        let numPlayers = Object.keys(game.players).length
+        let numPlayers = game.playerOrder.length;
         if (numPlayers < 4 && !game.started) {
             payload.push({id: key, name: "Game " + key, numPlayers});
         }
@@ -214,4 +233,11 @@ function gameUpdate(gameID) {
     };
     socketServer.to("game" + gameID).emit("gameUpdate", payload);
     console.log("Sent update for game " + gameID);
+}
+
+function handUpdate(usersToUpdate, gameID) {
+    usersToUpdate.forEach(userID => {
+        state.users[userID].socket.emit("handUpdate", state.games[gameID].players[userID].hand);
+    });
+    console.log("Sent hand updates to:", usersToUpdate.map(userID => (state.users[userID].name + "_" + state.users[userID].id.slice(0, 5))));
 }
