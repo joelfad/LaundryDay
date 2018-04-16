@@ -92,7 +92,7 @@ const styles = theme => ({
         marginBottom: "auto",
         textAlign: "center",
         color: theme.palette.primary.darkgrey,
-        fontFamily: "Just Me Again Down Here",
+        fontFamily: "Just Me Again Down Here, cursive",
         fontSize: "1.5em",
         lineHeight: "100%"
     },
