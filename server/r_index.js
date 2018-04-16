@@ -49,7 +49,7 @@ socketServer.on("connection", socket => {
                 }
             } else {
                 console.log("User was not here before, make new 'account'");
-                state.users[userID] = new User(userID, userData.name);
+                state.users[userID] = new User(userID, userData.name, socket);
                 sendResponse({goTo: "avatar"});
             }
             console.log("Got user:", userData);
@@ -159,16 +159,20 @@ socketServer.on("connection", socket => {
     });
 
     socket.on("ask", playload => {
-        let game = state.games[payload.gameID];
+        let {askerID, responderID, cardID, gameID} = payload;
+        let game = state.games[gameID];
+
         if (userID && game.playerOrder[game.currentTurn] === userID) {
-            if (game.askForCard(payload.askerID, payload.responderID, payload.cardID)) {
-                gameUpdate(payload.gameID);
-                handUpdate([payload.askerID, playload.responderID], payload.gameID);
-            } else if (game.goFish(payload.askerID)) {
-                gameUpdate(payload.gameID);
-                handUpdate([payload.askerID], payload.gameID);
+            if (game.askForCard(askerID, responderID, cardID)) {
+                gameUpdate(gameID);
+                handUpdate([askerID, responderID], gameID);
+            } else if (game.goFish(askerID)) {
+                game.nextTurn();
+                gameUpdate(gameID);
+                handUpdate([askerID], gameID);
             } else {
-                // do end game stuff
+                // There are no more cards, the game is over
+                socketServer.to("game" + gameID).emit("gameOver", {});
             }
 
         }

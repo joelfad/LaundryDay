@@ -80,6 +80,13 @@ class Game {
                 return true;
             }
         }
+
+        this.nextTurn = () => {
+            this.currentTurn++;
+            if (this.currentTurn > (this.playerOrder.length - 1)) {
+                this.currentTurn = 0;
+            }
+        }
     }
 };
 
