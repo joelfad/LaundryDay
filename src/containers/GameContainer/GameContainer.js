@@ -111,6 +111,7 @@ class GameContainer extends Component {
         let payload = {
             askerID: this.state.thisPlayerID,
             cardID: this.state.thisPlayerHand[this.state.selectedCard].id,
+            cardName: this.state.thisPlayerHand[this.state.selectedCard].name,
             responderID: this.state.players[this.state.selectedOpponent].id,
             gameID: this.props.match.params.id
         };
