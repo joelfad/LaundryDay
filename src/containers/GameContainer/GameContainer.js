@@ -28,8 +28,6 @@ class GameContainer extends Component {
         let thisPlayerID = this.props.gAuth.currentUser.get().getId();
 
         this.props.socket.on("gameUpdate", payload => {
-            console.log("Got game update:", payload);   // DEBUG
-
             // assign turn to players
             payload.players.map((player, index) => {
                 player.turn = index === payload.currentTurn;
@@ -117,15 +115,10 @@ class GameContainer extends Component {
         this.clearSelections();
     }
 
-    // DEBUG
-    testGameOver = (state) => {
-        this.setState({gameOver: state});
-    }
-
     render() {
         if (this.state.gameStarted) {
             if (this.state.gameOver) {
-                return <EndPage history={this.props.history}/>;
+                return <EndPage history={this.props.history} result={this.state.gameOver}/>;
             } else {
                 return <Playing
                             players={this.state.players}
@@ -137,7 +130,7 @@ class GameContainer extends Component {
                             selectOpponentHandler={this.handleSelectOpponent}
                             selectCardHandler={this.handleSelectCard}
                             askHandler={this.askAllowed() ? this.handleAsk : null}
-                            leaveHandler={this.testGameOver}
+                            leaveHandler={this.handleLeaveGame}
                         />;
             }
         } else {
