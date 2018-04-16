@@ -34,8 +34,25 @@ const styles = theme => ({
             marginTop: "-75px",
             marginLeft: "calc(-3vw + 10px)"
         }
+    },
+    "@media (min-width: 1600px)": {
+        cards: {
+            fontSize: "100px"
+        },
+        count: {
+            marginTop: "-75px",
+            marginLeft: "calc(-4vw + 10px)"
+        }
+    },
+    "@media (min-width: 2300px)": {
+        cards: {
+            fontSize: "100px"
+        },
+        count: {
+            marginTop: "-75px",
+            marginLeft: "calc(-5vw + 20px)"
+        }
     }
-
     }
 );
 
