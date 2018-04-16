@@ -14,7 +14,7 @@ const styles = theme => ({
         border: "5px solid " + theme.palette.primary.main  
     },
     turn: {
-        border: "5px solid " + theme.palette.primary.pastelpurple
+        border: "5px dashed " + theme.palette.primary.pastelpurple
     }
 });
 

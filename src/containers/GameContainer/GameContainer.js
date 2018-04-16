@@ -9,11 +9,11 @@ import { withSocket } from "../../context/SocketContext/SocketContext";
 class GameContainer extends Component {
     state = {
         players: [],
-        currentTurn: -1,
-        creator: 123,
+        currentTurn: null,
+        creator: null,
         gameStarted: false,
         gameOver: false,
-        thisPlayerID: 1234,
+        thisPlayerID: null,
         thisPlayerHand: [],
         message: "",
         selectedCard: null,

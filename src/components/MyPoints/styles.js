@@ -1,8 +1,5 @@
-import badge from "./img/badge.png";
-
 const styles = theme => ({
     badge: {
-        backgroundImage: "url(" + badge + ")",
         backgroundSize: "100% auto",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
