@@ -1,7 +1,6 @@
 const styles = theme => ({
     card: {
-        width: "10vh",
-        maxWidth: "90px",
+        width: "12vh",
         height: "12vh",
         maxHeight: "108px",
         display: "flex",
@@ -25,6 +24,9 @@ const styles = theme => ({
     selected: {
         outline: "5px solid " + theme.palette.primary.main,    
     },
+    num: {
+        fontSize: "1em"
+    },
     "@media (max-width: 400px)": {
         icon: {
             width: "30px",
@@ -34,7 +36,7 @@ const styles = theme => ({
             fontSize: "0.75em"
         },
         card: {
-            width: "8vh",
+            minWidth: "60px",
             height: "10vh"
         }
     }
