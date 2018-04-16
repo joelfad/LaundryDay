@@ -7,10 +7,10 @@ import Avatar from "../Avatar/Avatar";
 const thisPlayer = props => {
     let { classes } = props;
     return (
-        <div className={classes.me}>
-        <Avatar index={props.avatar} large turn={props.turn}/>
+        <div className={classes.thisPlayer}>
+        <Avatar index={props.player.avatar} large turn={props.player.turn}/>
             <div>
-                <Typography className={classes.name} variant="headline">{props.name}</Typography>
+                <Typography className={classes.name} variant="headline">{props.player.name}</Typography>
             </div>
         </div>
     );

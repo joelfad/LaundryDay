@@ -1,5 +1,5 @@
 const styles = theme => ({
-    me: {
+    thisPlayer: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center"

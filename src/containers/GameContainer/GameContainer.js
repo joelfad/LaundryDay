@@ -8,21 +8,47 @@ import { withSocket } from "../../context/SocketContext/SocketContext";
 
 class GameContainer extends Component {
     state = {
-        players: [],
-        currentTurn: 0,
+        players: [],        // DONE
+        currentTurn: -1,    // DONE
         creator: 123,
         gameStarted: false,
         gameOver: false,
         thisPlayerID: 1234,
-        thisPlayerHand: [],
-        message: ""
+        thisPlayerHand: [
+            {id: 2, name: "sock"},
+            {id: 1, name: "mitten"},
+            {id: 0, name: "shoe"}
+        ],
+        message: "\"Bob, do you have a sweater?\" - Marissa",   // DONE
+        selectedCard: null,
+        selectedOpponent: null
     }
+
+    isThisPlayersTurn = () => this.state.thisPlayerID === this.state.players[this.state.currentTurn];
+    clearSelections = () => this.setState({ selectedCard: null, selectedOpponent: null });
+    askAllowed = () => this.isThisPlayersTurn() && this.state.selectedOpponent !== null && this.state.selectedCard !== null;
 
     componentDidMount() {
         let thisPlayerID = this.props.gAuth.currentUser.get().getId();
 
         this.props.socket.on("gameUpdate", payload => {
             console.log("Got game update:", payload);
+
+            // assign turn to players
+            payload.players.map((player, index) => {
+                player.turn = index === payload.currentTurn;
+            });
+
+            this.clearSelections();
+
+            // move thisPlayer to the end of the list
+            while (payload.players[payload.players.length - 1].id !== this.state.thisPlayerID) {
+                payload.players.unshift(payload.players.pop());
+                payload.currentTurn = (payload.currentTurn + 1) % payload.players.length;
+            }
+
+            console.log("Player #" + payload.currentTurn + "'s turn."); // DEBUG
+
             this.setState(payload);
         });
 
@@ -46,7 +72,7 @@ class GameContainer extends Component {
             this.props.history.push("/lobby");
         });
 
-        this.setState({thisPlayerID});
+        this.setState({thisPlayerID: thisPlayerID});
         this.props.socket.emit("joinGameRoom", this.props.match.params.id);
     }
 
@@ -64,6 +90,9 @@ class GameContainer extends Component {
 
     handleLeaveGame = () => {
         this.props.socket.emit("leaveGame", this.props.match.params.id, () => {
+
+            console.log("Sending `leaveGame` event...");  // DEBUG
+
             this.props.history.push("/lobby");
         });
     }
@@ -72,12 +101,43 @@ class GameContainer extends Component {
         this.props.socket.emit("startGame", this.props.match.params.id);
     }
 
+    handleSelectOpponent = (index) => {
+        this.isThisPlayersTurn() && this.setState({selectedOpponent: index});
+    }
+
+    handleSelectCard = (index) => {
+        this.isThisPlayersTurn() && this.setState({selectedCard: index});
+    }
+
+    handleAsk = () => {
+        let payload = {
+            askerID: this.state.thisPlayerID,
+            cardID: this.state.thisPlayerHand[this.state.cardSelected].id,
+            responderID: this.props.match.params.id
+        };
+        this.props.socket.emit("ask", payload);
+        this.clearSelections();
+
+        console.log("ask: ", payload);  // DEBUG
+    }
+
     render() {
         if (this.state.gameStarted) {
             if (this.state.gameOver) {
                 return <EndPage />;
             } else {
-                return <Playing />;
+                return <Playing
+                            players={this.state.players}
+                            thisPlayer={this.state.players[this.state.players.length - 1]}
+                            message={this.state.message}
+                            cards={this.state.thisPlayerHand}
+                            selectedOpponent={this.state.selectedOpponent}
+                            selectedCard={this.state.selectedCard}
+                            selectOpponentHandler={this.handleSelectOpponent}
+                            selectCardHandler={this.handleSelectCard}
+                            askHandler={this.askAllowed() ? this.handleAsk : null}
+                            leaveHandler={this.handleLeaveGame}
+                        />;
             }
         } else {
             return <GameLobby

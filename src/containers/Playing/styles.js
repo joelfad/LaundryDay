@@ -101,7 +101,7 @@ const styles = theme => ({
         flexDirection: "row",
         justifyContent: "space-around"
     },
-    meArea: {
+    thisPlayerArea: {
         display: "flex",
         justifyContent: "space-around"
     },

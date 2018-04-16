@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { withStyles } from "material-ui/styles";
-// import { withAuth } from "../../context/AuthContext/AuthContext";
-// import { withSocket } from "../../context/SocketContext/SocketContext";
 import playingStyles from "./styles";
 import ThisPlayer from "../../components/ThisPlayer/ThisPlayer";
 import MyPoints from "../../components/MyPoints/MyPoints";
@@ -16,22 +14,6 @@ import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 
 class Playing extends Component {
     state = {
-        opponentSelected: null,
-        cardSelected: null,
-        playersTurn: -1,
-        myID: 3, // set by componentDidMount - this is who "you" are
-        thisPlayer: { id: 3, name: "Marissa", avatar: "3", numCards: 3, points: 12},
-        cards: [
-            {id: 2, name: "sock", selected: false},
-            {id: 1, name: "mitten", selected: false},
-            {id: 0, name: "shoe", selected: false}
-        ],
-        opponents: [
-            {id: 0, name: "Bob", avatar: "2", selected: false, numCards: 12, points: 8},
-            {id: 1, name: "Joanna", avatar: "5", selected: false, numCards: 5, points: 2},
-            {id: 2, name: "Sally", avatar: "4", selected: false, numCards: 8, points: 7},
-        ],
-        message: "\"Bob, do you have a sweater?\" - Marissa",
         confirmQuit: false
     };
 
@@ -43,76 +25,20 @@ class Playing extends Component {
         this.setState({confirmQuit: false});
     }
 
-    isMyTurn = () => this.state.playersTurn === this.state.myID;
-
-    canAsk = () => this.isMyTurn() && this.state.opponentSelected !== null && this.state.cardSelected !== null;
-
-    clearSelections = () => {
-        this.setState({
-            opponentSelected: null,
-            cardSelected: null,
-        });
-    }
-
-    selectedOpponentHandler = (index) => {
-        this.isMyTurn() && this.setState({opponentSelected: index});
-    }
-
-    selectedCardHandler = (index) => {
-        this.isMyTurn() && this.setState({cardSelected: index});
-    }
-
-    askHandler = () => {
-        if (this.canAsk()) {
-
-            let request = {
-                myID: this.state.myID,
-                cardID: this.state.cardSelected,
-                opponentID: this.state.opponentSelected
-            }
-
-            // TODO: send "ask" request to server
-            console.log("Sending `ask` event: ", request);  // DEBUG
-
-            this.clearSelections();
-            this.debugNextTurn(); // DEBUG
-        }
-    }
-
-    leaveGameHandler = () => {
-        // TODO
-        console.log("Sending `leaveGame` event...");  // DEBUG
-    }
-
-    debugNextTurn = () => {
-        // DEBUG
-        let currentPlayer = this.state.playersTurn;
-        let numberOfPlayers = this.state.opponents.length + 1;
-        this.setState({playersTurn: (currentPlayer + 1) % numberOfPlayers})
-        this.clearSelections();
-    }
-
-    // componentDidMount() {
-    //     this.setState({myID: this.props.gAuth.currentUser.get().getId()});
-    // }
+    thisPlayer = () => this.props.players[this.props.players.length - 1];
 
     render() {
         const { classes } = this.props;
 
-        console.log("Player #" + this.state.playersTurn + "'s turn.");  // DEBUG
-
         const opponents = [];
-        for (let i = 0; i < this.state.opponents.length; i++) {
+        // all players except the last one are opponents
+        for (let i = 0; i < this.props.players.length - 1; i++) {
             opponents.push(
                 <Opponent
                     key={i} 
-                    clicked={() => this.selectedOpponentHandler(i)}
-                    name={this.state.opponents[i].name} 
-                    avatar={this.state.opponents[i].avatar} 
-                    selected={this.state.opponentSelected === i}
-                    turn={this.state.playersTurn === this.state.opponents[i].id}
-                    numCards={this.state.opponents[i].numCards}
-                    points={this.state.opponents[i].points}
+                    clicked={() => this.props.selectOpponentHandler(i)}
+                    player={this.props.player[i]}
+                    selected={this.props.selectedOpponent === i}
                 />
             );
         }
@@ -120,19 +46,19 @@ class Playing extends Component {
         let message = (
             <div className={classes.messageBox}>
                 <div className={classes.message}>
-                    {this.state.message}
+                    {this.props.message}
                 </div>
             </div>
         );
 
         const myCards = [];
-        for (let i = 0; i < this.state.cards.length; i++) {
+        for (let i = 0; i < this.props.cards.length; i++) {
             myCards.push(
                 <MyCard
                     key={i}
-                    clicked={() => this.selectedCardHandler(i)}
-                    card={this.state.cards[i]}
-                    selected={this.state.cardSelected === i}
+                    clicked={() => this.props.selectCardHandler(i)}
+                    card={this.props.cards[i]}
+                    selected={this.props.selectedCard === i}
                 />
             );
         }
@@ -140,11 +66,10 @@ class Playing extends Component {
         return (
             <div className={classes.playing}>
                 <Typography className={classes.title} variant="title">Laundry Day</Typography>
-                <SkipNext className={classes.debugNextTurnButton} onClick={this.debugNextTurn}/>
                 <ConfirmDialog
                     title="Are you sure you want to end the game?"
                     text="Clicking 'YES' will end the game for all players."
-                    action={this.leaveGameHandler}
+                    action={this.props.leaveHandler}
                 >
                     <ExitToApp className={classes.quitButton}/>
                 </ConfirmDialog>
@@ -156,18 +81,18 @@ class Playing extends Component {
                 <div className={classes.cards}>
                     {myCards}
                 </div>
-                <div className={classes.meArea}>
+                <div className={classes.thisPlayerArea}>
                     <div className={classes.grow}>
-                    <MyPoints points={this.state.thisPlayer.points}/>
+                        <MyPoints points={this.thisPlayer().points}/>
                     </div>
-                    <ThisPlayer name={this.state.thisPlayer.name} avatar={this.state.thisPlayer.avatar} turn={this.isMyTurn()}/>
+                    <ThisPlayer player={this.thisPlayer()}/>
                     <div className={classes.grow}>
-                    <Button
-                        className={[classes.button, this.canAsk() ? classes.enableAsk : classes.disableAsk].join(" ")}
-                        onClick={this.askHandler}
-                    >
-                        Ask
-                    </Button>
+                        <Button
+                            className={[classes.button, this.props.askHandler ? classes.enableAsk : classes.disableAsk].join(" ")}
+                            onClick={this.props.askHandler}
+                        >
+                            Ask
+                        </Button>
                     </div>
                 </div>
                 </Paper>

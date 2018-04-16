@@ -1,5 +1,5 @@
 const styles = theme => ({
-    me: {
+    thisPlayer: {
         fontFamily: theme.fonts.simple,
         display: "flex",
         flexDirection: "column",
