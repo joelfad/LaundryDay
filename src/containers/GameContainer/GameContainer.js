@@ -17,7 +17,8 @@ class GameContainer extends Component {
         thisPlayerHand: [],
         message: "",
         selectedCard: null,
-        selectedOpponent: null
+        selectedOpponent: null,
+        mickProof: true
     }
 
     isThisPlayersTurn = () => this.state.thisPlayerID === this.state.players[this.state.currentTurn].id;
@@ -42,6 +43,7 @@ class GameContainer extends Component {
                 payload.currentTurn = (payload.currentTurn + 1) % payload.players.length;
             }
 
+            payload.mickProof = false;
             this.setState(payload);
         });
 
@@ -96,11 +98,11 @@ class GameContainer extends Component {
     }
 
     handleSelectOpponent = (index) => {
-        this.isThisPlayersTurn() && this.setState({selectedOpponent: index});
+        this.isThisPlayersTurn() && !this.state.mickProof && this.setState({selectedOpponent: index});
     }
 
     handleSelectCard = (index) => {
-        this.isThisPlayersTurn() && this.setState({selectedCard: index});
+        this.isThisPlayersTurn() && !this.state.mickProof && this.setState({selectedCard: index});
     }
 
     handleAsk = () => {
@@ -112,6 +114,7 @@ class GameContainer extends Component {
             gameID: this.props.match.params.id
         };
         this.props.socket.emit("ask", payload);
+        this.setState({mickProof: true})
         this.clearSelections();
     }
 
