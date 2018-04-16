@@ -85,8 +85,8 @@ const styles = theme => ({
     },
     message: {
         transform: "rotate(-4deg)",
-        paddingLeft: "50px",
-        paddingRight: "30px",
+        paddingLeft: "70px",
+        paddingRight: "50px",
         paddingBottom: "22px",
         marginTop: "auto",
         marginBottom: "auto",
@@ -121,7 +121,7 @@ const styles = theme => ({
     },
     "@media (min-width: 500px)": {
         message: {
-            fontSize: "2.5em"
+            fontSize: "2.5em",
         }
     },
     "@media (min-width: 900px)": {
@@ -129,6 +129,9 @@ const styles = theme => ({
              width: "800px",
              marginLeft: "auto",
              marginRight: "auto"
+        },
+        message: {
+            maxWidth: "800px"
         }
     }
 });
