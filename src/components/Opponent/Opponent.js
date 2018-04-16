@@ -16,7 +16,7 @@ const opponent = props => {
             <div className={classes.newrow}>
             <Avatar index={props.player.avatar} large selected={props.selected} turn={props.player.turn}/>
                 <div className={classes.nums}>
-                    <OpponentPoints points={props.player.points}/>
+                    <OpponentPoints points={props.player.points} turn={props.player.turn}/>
                     <CardCount numCards={props.player.numCards} selected={props.selected}/>
                 </div>
             </div>

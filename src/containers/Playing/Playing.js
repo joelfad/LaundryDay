@@ -82,7 +82,7 @@ class Playing extends Component {
                 </div>
                 <div className={classes.thisPlayerArea}>
                     <div className={classes.grow}>
-                        <MyPoints points={this.thisPlayer().points}/>
+                        <MyPoints points={this.thisPlayer().points} turn={this.thisPlayer().turn}/>
                     </div>
                     <ThisPlayer player={this.thisPlayer()}/>
                     <div className={classes.grow}>
