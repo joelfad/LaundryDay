@@ -87,6 +87,27 @@ class Game {
                 this.currentTurn = 0;
             }
         }
+
+        this.findWinner = () => {
+            let winner = {id: 1234, points: -1};
+            this.playerOrder.forEach(playerID => {
+                if (this.players[playerID].points > winner.points) {
+                    winner = {id: playerID, points: this.players[playerID]};
+                }
+            });
+            // check for tie:
+            let winners = [winner.id];
+            let losers = [];
+            this.playerOrder.forEach(playerID => {
+                if (this.players[playerID].points === winner.points) {
+                    winners.push(playerID);
+                } else {
+                    losers.push(playerID);
+                }
+            });
+
+            return {winners, losers};
+        }
     }
 };
 

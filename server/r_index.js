@@ -186,8 +186,22 @@ socketServer.on("connection", socket => {
                     sendMessage(gameID, "Go Fish! - " + state.users[responderID].name);
                 } else {
                     // There are no more cards, the game is over
-
-                    socketServer.to("game" + gameID).emit("gameOver", {});
+                    let winners = game.findWinner();
+                    if (winners.length > 1) {
+                        winners.forEach(winnerID => {
+                            state.users[winnerID].socket.emit("gameOver", "tie");
+                        });
+                    } else {
+                        state.users[winners[0]].socket.emit("gameOver", "win");
+                    }
+                    losers.forEach(loserID => {
+                        state.users[losersID].socket.emit("gameOver", "lose");
+                    });
+                    // Delete the game
+                    state.games[gameID].playerOrder.forEach(playerID => {
+                        state.users[playerID].inGame = -1;
+                    });
+                    delete state.games[gameID];
                 }
             }, 2000);
         }
