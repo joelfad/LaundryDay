@@ -16,7 +16,7 @@ const game = props => {
             <div>
             {props.num}/4 players
             </div>
-            <Button variant="raised" color="primary" onClick={props.joinGameHandler}>Join Game</Button>
+            <Button className={classes.button} variant="raised" color="primary" onClick={props.joinGameHandler}>Join Game</Button>
         </div>
         <Divider />
         </Fragment>

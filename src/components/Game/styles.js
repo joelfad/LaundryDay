@@ -5,6 +5,9 @@ const styles = theme => ({
         flexDirection: "row",
         justifyContent: "space-between",
         padding: "20px"
+    },
+    button: {
+        textTransform: "capitalize"
     }
 });
 
