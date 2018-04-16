@@ -89,10 +89,8 @@ class GameContainer extends Component {
     }
 
     handleLeaveGame = () => {
+        console.log("Sending `leaveGame` event...");  // DEBUG
         this.props.socket.emit("leaveGame", this.props.match.params.id, () => {
-
-            console.log("Sending `leaveGame` event...");  // DEBUG
-
             this.props.history.push("/lobby");
         });
     }

@@ -126,9 +126,9 @@ socketServer.on("connection", socket => {
             } else {
                 state.games[gameID].removePlayer(userID);
                 state.users[userID].inGame = -1;
+                sendResponse();
                 gameUpdate(gameID);
                 lobbyUpdate();
-                sendResponse();
                 console.log(state.users[userID].name + "_" + state.users[userID].id.slice(0, 5) + " left game " + gameID);
             }
         }
